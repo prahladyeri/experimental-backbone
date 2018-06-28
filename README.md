@@ -16,7 +16,7 @@
 This is freely licensed under MIT and you are free to share and use.
 Helpful contributions will be welcome, of course!
 
-## Pending Stuff
+## Pending Tasks
 
 ```
 Legend:
