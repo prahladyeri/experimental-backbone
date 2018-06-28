@@ -5,11 +5,11 @@ var Router = Backbone.Router.extend({
 });
 
 router = new Router();
-var flowerList = new FlowerList();
+var userList = new UserList();
 
-router.on('route:home', function(){
+router.on('route:home', function() {
 	console.log("We have loaded the home page.");
-	flowerList.render();
+	userList.render();
 });
 
 Backbone.history.start();

@@ -1,7 +1,8 @@
-SingleFlower = Backbone.Model.extend({
-	
+User = Backbone.Model.extend({
 	defaults: {
-		color: "pink",
-		img: "img/placeholder.jpg"
+		type: "admin", // admin/user
+		name: "",
+		email: "",
+		password: "",
 	}
 });
