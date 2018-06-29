@@ -1,5 +1,6 @@
+var app = app || {};
 console.log("loading views");
-var LoginView = Backbone.View.extend({
+app.LoginView = Backbone.View.extend({
 	el: '#app',
 	initialize: function() {
 		_.bindAll(this, "login");
@@ -7,12 +8,20 @@ var LoginView = Backbone.View.extend({
 		$("body").on('click', '#frm-login #btn-login', this.login);
 	},
 	render: function() {
-		loadView("partials/login.html", function(){
+		//~ loadView("partials/login.html", function(){
+			//~ var form = $("#frm-login");
+			//~ console.log('formNow', form);
+			//~ console.log('formNow', typeof form);
+			//~ app.setFocus(form);
+		//~ });
+		loadView("partials/login.html")
+		.then(function() {
 			var form = $("#frm-login");
 			console.log('formNow', form);
 			console.log('formNow', typeof form);
-			setFocus(form);
+			app.setFocus(form);
 		});
+
 	},
 	login: function() {
 		console.log("login() triggered.");

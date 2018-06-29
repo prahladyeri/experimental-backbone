@@ -1,21 +1,17 @@
-/* Business Logic */
-
-var app = {};
-app.version = "0.1.1";
+var app = app || {};
+app.version = "0.1.2";
 console.log('loading app version ', app.version);
 
-var user1 = new User({
+app.user1 = new app.User({
 	name: "John Doe",
 	type: "admin",
 	email: "johndoe@nowhere.com",
 	password: "",
 });
 
-var user2 = new User({
+app.user2 = new app.User({
 	name: "Jane Doe",
 	type: "admin",
 	email: "janedoe@nowhere.com",
 	password: "",
 });
-
-//console.log(user.toJSON());

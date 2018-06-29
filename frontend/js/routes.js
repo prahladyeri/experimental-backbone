@@ -1,21 +1,21 @@
+var app = app || {};
 console.log("loading routes");
-var Router = Backbone.Router.extend({
+app.Router = Backbone.Router.extend({
 	routes: {
 		"": 'home'
 	}
 });
 
-var router = new Router();
-var loginView = new LoginView();
+app.router = new app.Router();
+app.loginView = new app.LoginView();
 
-router.on('route:home', function() {
+app.router.on('route:home', function() {
 	console.log("route:home");
-	loginView.render();
+	app.loginView.render();
 });
 Backbone.history.start(); //@todo: check what this does.
 
-function setFocus(form) {
-	window.form = form;
+app.setFocus = function(form) {
 	console.log('now setting focus', form);
 	form.find("input:first").focus();
 }
