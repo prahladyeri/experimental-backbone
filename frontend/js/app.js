@@ -1,4 +1,8 @@
 /* Business Logic */
+
+var app = {};
+app.version = "0.1.1";
+
 var user = new User({
 	name: "John Doe",
 	type: "admin",
@@ -7,4 +11,3 @@ var user = new User({
 });
 
 console.log(user.toJSON());
-

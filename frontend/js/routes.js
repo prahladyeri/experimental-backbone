@@ -4,7 +4,7 @@ var Router = Backbone.Router.extend({
 	}
 });
 
-router = new Router();
+var router = new Router();
 var userList = new UserList();
 
 router.on('route:home', function() {
