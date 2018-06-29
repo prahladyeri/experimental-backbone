@@ -19,11 +19,6 @@ Helpful contributions will be welcome, of course!
 ## Pending Tasks
 
 ```
-Legend:
-- Pending
-+ Work in Progress
-* Done
-
 + Create tables and data structures for user authentication.
 + Organize index.html, link stylesheets, scripts, etc.
 + Organize code into models, collections, views and routers.
@@ -32,4 +27,11 @@ Legend:
 - Core modules:
 	- Profile page.
 	- User management (only for admin roles).
+	
+----
+
+Legend:
+- Pending
++ Work in Progress
+* Done
 ```
