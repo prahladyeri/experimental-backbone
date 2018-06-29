@@ -1,15 +1,20 @@
 console.log("loading views");
-var UserList = Backbone.View.extend({
-	el: '.main',
+var LoginView = Backbone.View.extend({
+	el: '#app',
+	initialize: function() {
+		_.bindAll(this, "login");
+		console.log("LENGTH IS ", $("body").length);
+		$("body").on('click', '#frm-login #btn-login', this.login);
+	},
 	render: function() {
-		this.$el.html("CONTENT SHOULD BE SHOWN HERE!");
-	}
-});
-
-
-var MenuList = Backbone.View.extend({
-	el: '.main',
-	render: function() {
-		this.$el.html("THIS IS A MENU");
+		loadView("partials/login.html", function(){
+			var form = $("#frm-login");
+			console.log('formNow', form);
+			console.log('formNow', typeof form);
+			setFocus(form);
+		});
+	},
+	login: function() {
+		console.log("login() triggered.");
 	}
 });
