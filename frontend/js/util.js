@@ -1,8 +1,9 @@
 function loadView(filename, selector) {
+	console.log("FILENAME: ",filename);
 	var selector = selector || "#app";
 	//var promise = new Promise();
 	return new Promise(function(resolve) {
-		$("<div></div>").load(filename, function() {
+		$("<div></div>").load(filename  + "?" + Date.now(), function() {
 			//console.log('div.app contents: ', $("div.app").html());
 			var tempstr =  $(this).html(); //$("div.app").html();
 			//console.log("template: ", tempstr);
@@ -14,7 +15,7 @@ function loadView(filename, selector) {
 			//thtml
 			$ctrl = $(html);
 			//console.log("jquery output: ", $ctrl.html());
-			$(selector).append($ctrl.html()).show();
+			$(selector).html($ctrl.html()).show();
 			//$("div.app").append("<h1>test</h1>").show();
 			//if (callback != undefined) callback();
 			resolve();

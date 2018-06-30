@@ -1,8 +1,5 @@
 <script type="text/template">
-<form id="frm-login" class="form-horizontal col-md-offset-4 col-md-4" method="post" action="#">
-	<br>
-	<br>
-	<br>
+<form id="frm-login" class="form-horizontal col-md-offset-4 col-md-4" onsubmit="return false;">
 	<div class="form-group">
 		<label for="email" class="cols-sm-2 control-label">Email</label>
 		<div class="cols-sm-10">
@@ -18,16 +15,16 @@
 		<div class="cols-sm-10">
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-				<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+				<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password" required>
 			</div>
 		</div>
 	</div>
 
 	<div class="form-group ">
-		<button id='btn-login' type="button" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+		<button id='btn-login' type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
 	</div>
 	<div class="login-register">
-		<a href="register">Register</a>
+		<a href="/#register">Register</a>
 	 </div>
 </form>	
 	

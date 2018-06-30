@@ -6,5 +6,10 @@ app.User = Backbone.Model.extend({
 		name: "",
 		email: "",
 		password: "",
+	},
+	validate: function(attrs, options) {
+		if (attrs.password.length < 8) {
+			return "Password length cannot be less than eight chars.";
+		}
 	}
 });

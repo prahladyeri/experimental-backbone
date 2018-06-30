@@ -1,6 +1,13 @@
 var app = app || {};
-app.version = "0.1.3";
+app.version = "0.3";
 console.log('loading app version ', app.version);
+
+//helper functions
+app.setFocus = function(form) {
+	//console.log('now setting focus', form);
+	form.find("input:first").focus();
+}
+
 
 app.user1 = new app.User({
 	name: "John Doe",
