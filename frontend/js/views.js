@@ -18,6 +18,7 @@ app.NavbarView = Backbone.View.extend({
 
 app.LoginView = Backbone.View.extend({
 	el: '#app',
+	title: "Login",
 	initialize: function() {
 		//_.bindAll(this, "login");
 		//$("body").on('click', '#frm-login #btn-login', this.login);
@@ -28,17 +29,13 @@ app.LoginView = Backbone.View.extend({
 		}
 	},
 	render: function() {
-		console.log("rendering login view. ", $("#spn-title").length);
+		$("#spn-title").text(this.title);
 		app.loadTemplate("partials/login.html")
 		.then(function() {
 			var form = $("#frm-login");
 			app.setFocus(form);
 		});
-		$("#spn-title").text("Login");
 	},
-	//~ login: function() {
-		//~ console.log("login() triggered.");
-	//~ }
 });
 
 
@@ -53,7 +50,7 @@ app.RegisterView = Backbone.View.extend({
 		}
 	},
 	render: function() {
-		$("#spn-title").text("Register");
+		$("#spn-title").text(this.title);
 		app.loadTemplate("partials/register.html")
 		.then(function() {
 			var form = $("#frm-register");
@@ -61,7 +58,4 @@ app.RegisterView = Backbone.View.extend({
 		});
 
 	},
-	//~ login: function() {
-		//~ console.log("login() triggered.");
-	//~ }
 });

@@ -1,9 +1,12 @@
+/**
+ * App
+ * 
+ * */
 var app = app || {};
 app.version = "0.4";
 app.config = {
 	mode: 'offline', //@todo implement indexeddb
 }
-
 //@todo fill this after login:
 app.user = {
 	status: "signed-out",
@@ -25,5 +28,3 @@ app.user2 = new app.User({
 });
 
 app.users = new app.Users([app.user1, app.user2]);
-app.users = new app.Users([app.user1, app.user2]);
-
