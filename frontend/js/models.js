@@ -1,3 +1,7 @@
+/**
+ * Models
+ * 
+ * */
 var app = app || {};
 console.log("loading models");
 app.User = Backbone.Model.extend({
@@ -12,4 +16,9 @@ app.User = Backbone.Model.extend({
 			return "Password length cannot be less than eight chars.";
 		}
 	}
+});
+
+app.Users = Backbone.Collection.extend({
+	model: app.User,
+	url: "/user",
 });

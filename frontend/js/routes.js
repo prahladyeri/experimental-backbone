@@ -1,3 +1,7 @@
+/**
+ * Routes
+ * 
+ * */
 var app = app || {};
 console.log("loading routes");
 app.navbarView = new app.NavbarView();

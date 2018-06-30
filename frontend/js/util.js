@@ -1,4 +1,14 @@
-function loadView(filename, selector) {
+/**
+ * Helper functions
+ * 
+ * */
+var app = app || {};
+app.setFocus = function(form) {
+	//console.log('now setting focus', form);
+	form.find("input:first").focus();
+}
+
+app.loadTemplate = function(filename, selector) {
 	console.log("FILENAME: ",filename);
 	var selector = selector || "#app";
 	//var promise = new Promise();
@@ -25,7 +35,7 @@ function loadView(filename, selector) {
 
 
 //setTimeout re-implemented using Promise API
-function sleep(interval) {
+app.sleep = function(interval) {
 	return new Promise(function(resolve){
 		setTimeout(resolve, interval);
 		//resolve(100);
