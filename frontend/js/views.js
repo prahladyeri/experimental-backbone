@@ -8,7 +8,7 @@ console.log("loading views");
 app.NavbarView = Backbone.View.extend({
 	render: function() {
 		return new Promise(function(resolve) {
-			app.loadTemplate("partials/navbar.html", "#nav-box")
+			app.loadTemplate("partials/navbar.html", "#div-navbar")
 			.then(function(){
 				resolve();
 			});
@@ -17,7 +17,7 @@ app.NavbarView = Backbone.View.extend({
 });
 
 app.LoginView = Backbone.View.extend({
-	el: '#app',
+	el: '#div-main',
 	title: "Login",
 	initialize: function() {
 		//_.bindAll(this, "login");
@@ -26,6 +26,10 @@ app.LoginView = Backbone.View.extend({
 	events: {
 		"submit #frm-login": function() {
 			console.log("Form submitted!");
+			app.bus.trigger("login", {
+				"email": this.$el.find("#email").val(),
+				"password": this.$el.find("#password").val(),
+				});
 		}
 	},
 	render: function() {
@@ -38,9 +42,8 @@ app.LoginView = Backbone.View.extend({
 	},
 });
 
-
 app.RegisterView = Backbone.View.extend({
-	el: '#app',
+	el: '#div-main',
 	title: "Register",
 	initialize: function() {
 	},

@@ -34,7 +34,7 @@
         <td>Email</td>
     </tr>
     <tbody>
-        <% _.each(users, function(user) { %>
+        <% _.each(users.models, function(user) { %>
             <tr>
                 <td><%= user.get('name') %></td>
                 <td><%= user.get('email') %></td>

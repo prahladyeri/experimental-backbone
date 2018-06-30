@@ -9,8 +9,7 @@ app.setFocus = function(form) {
 }
 
 app.loadTemplate = function(filename, selector) {
-	console.log("FILENAME: ",filename);
-	var selector = selector || "#app";
+	var selector = selector || "#div-main";
 	//var promise = new Promise();
 	return new Promise(function(resolve) {
 		$("<div></div>").load(filename  + "?" + Date.now(), function() {
@@ -19,8 +18,7 @@ app.loadTemplate = function(filename, selector) {
 			//console.log("template: ", tempstr);
 			template = _.template(tempstr);
 			//var ss = template.apply({'escape':true});
-			//console.log('ss', ss);
-			var html = template({users: [app.user1, app.user2]});
+			var html = template({"users": app.users.toJSON()});
 			//console.log('output: ', html);
 			//thtml
 			$ctrl = $(html);

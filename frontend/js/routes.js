@@ -29,9 +29,9 @@ app.navbarView.render()
 	});
 	app.router.on('route:login', function() {
 		console.log("route:login");
-		(new app.LoginView()).render();
+		app.loginView = new app.LoginView();
+		app.loginView.render();
 	});
-		
 	//register page
 	app.router.on('route:register', function() {
 		console.log("route:register");
