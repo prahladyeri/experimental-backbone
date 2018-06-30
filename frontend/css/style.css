@@ -1,0 +1,31 @@
+body {
+	font-family: verdana;
+}
+
+.dropdown-menu > li >  a.focus,
+.dropdown-menu > li > a:hover
+{
+	background-color: #90cfe7;
+}
+
+.btn {
+	border-radius: 0px;
+}
+
+
+div#nav-right-block {
+	width: 305px;
+	padding: 10px;
+	padding-bottom: 0px;
+}
+
+.icon-size
+{
+	font-size: 87px;
+}
+
+.icon-right {
+	float: right;
+	margin-top: -17px;
+	margin-right: 0px;
+}

@@ -1,5 +1,15 @@
 var app = app || {};
 console.log("loading views");
+
+app.NavbarView = Backbone.View.extend({
+	render: function() {
+		loadView("partials/navbar.html", "#nav-box")
+		.then(function(){
+			//@todo
+		});
+	}
+});
+
 app.LoginView = Backbone.View.extend({
 	el: '#app',
 	initialize: function() {

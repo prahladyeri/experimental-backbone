@@ -7,11 +7,12 @@ app.Router = Backbone.Router.extend({
 });
 
 app.router = new app.Router();
-app.loginView = new app.LoginView();
+//app.loginView = new app.LoginView();
 
 app.router.on('route:home', function() {
 	console.log("route:home");
-	app.loginView.render();
+	(new app.NavbarView()).render();
+	(new app.LoginView()).render();
 });
 Backbone.history.start(); //@todo: check what this does.
 
