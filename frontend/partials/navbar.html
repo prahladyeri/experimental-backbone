@@ -14,27 +14,28 @@
 		<li class='dropdown'>
 			<a href="#" class='data-toggle' data-toggle='dropdown'>Lorem <span class="caret"></span></a>
 			<ul class='dropdown-menu'>
-				<li><a href="lorem"><i class="fa fa-lg fa-download">&nbsp;</i>Lorem</a></li>
-				<li><a href="ipsum"><i class="fa fa-lg fa-upload">&nbsp;</i>Ipsum</a></li>
+				<li><a href="#lorem"><i class="fa fa-lg fa-file">&nbsp;</i>Lorem</a></li>
+				<li><a href="#ipsum"><i class="fa fa-lg fa-file">&nbsp;</i>Ipsum</a></li>
 				<li class="divider"></li>
-				<li><a href="dolor"><i class="fa fa-lg fa-rotate-right">&nbsp;</i>Dolor</a></li>
-				<li><a href="sit/amet"><i class="fa fa-lg fa-cog">&nbsp;</i>Sit Amet</a></li>
+				<li><a href="#dolor"><i class="fa fa-lg fa-bug">&nbsp;</i>Dolor</a></li>
+				<li><a href="#sit_amet"><i class="fa fa-lg fa-coffee">&nbsp;</i>Sit Amet</a></li>
 			</ul>
 		</li>
 		<li class='dropdown'>
 			<a href="#" class='data-toggle' data-toggle='dropdown'>Ipsum <span class="caret"></span></a>
 			<ul class='dropdown-menu'>
-				<li><a href="consectetur"><i class="fa fa-lg fa-life-ring">&nbsp;</i>Consectetur</a></li>
-				<li><a href="adipiscing"><i class="fa fa-lg fa-life-ring">&nbsp;</i>Adipiscing</a></li>
+				<li><a href="#consectetur"><i class="fa fa-lg fa-folder-open">&nbsp;</i>Consectetur</a></li>
+				<li><a href="#adipiscing"><i class="fa fa-lg fa-paper-plane">&nbsp;</i>Adipiscing</a></li>
 				<li class=""></li>
-				<li><a href="elit"><i class="fa fa-lg fa-info-circle">&nbsp;</i>About Experimental</a></li>
+				<li><a href="#elit"><i class="fa fa-lg fa-info-circle">&nbsp;</i>About Experimental</a></li>
 			</ul>
 		</li>
 	  </ul>
 	<ul id='navbar-user-block' class="nav navbar-nav navbar-right hidden">
+		<% if (app.state.user !== null) { %>
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				<i class="fa fa-user">&nbsp;</i>John Doe<span class="caret"></span>
+				<i class="fa fa-user">&nbsp;</i><%= (app.state.user == null ? "" : app.state.user.get("name")) %><span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
 				<li>
@@ -46,8 +47,8 @@
 								</p>
 							</div>
 							<div class="col-lg-8">
-								<h3 class="text-left">John Doe</h3>
-								<h5 class='text-left text-sm'>johndoe@nowhere.com</h5>
+								<h3 class="text-left"><%= app.state.user.get("name") %></h3>
+								<h5 class='text-left text-sm'><%= app.state.user.get('email') %></h5>
 								<p class="text-left">
 									<a href="#" class="btn btn-primary btn-block btn-md hidden">Profile</a>
 								</p>
@@ -58,9 +59,10 @@
 				<li class="divider"></li>
 				<li ><a href="/manage_users">Manage User Access <span class="fa fa-lg fa-user icon-right"></span></a></li>
 				<li class="divider"></li>
-				<li><a href="/logout">Sign Out <span class="fa fa-lg fa-sign-out icon-right"></span></a></li>
+				<li><a href="javascript:" onclick="app.signout();">Sign Out <span class="fa fa-lg fa-sign-out icon-right"></span></a></li>
 			</ul>
 		</li>
+		<% } %>
 	</ul>
 	</div>
   </div>

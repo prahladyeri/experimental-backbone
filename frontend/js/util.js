@@ -17,6 +17,12 @@ app.authenticate = function() {
 	}
 }
 
+app.signout = function() {
+	app.state.user = null;
+	app.state.isLoggedIn = false;
+	app.router.navigate("/login", {'trigger': true});
+}
+
 
 app.loadTemplate = function(filename, selector) {
 	var selector = selector || "#div-main";

@@ -7,6 +7,8 @@ console.log("loading views");
 
 app.NavbarView = Backbone.View.extend({
 	el: "#div-navbar",
+	initialize: function() {
+	},
 	render: function() {
 		return new Promise(function(resolve) {
 			app.loadTemplate("partials/navbar.html", "#div-navbar")
@@ -38,6 +40,19 @@ app.NavbarView = Backbone.View.extend({
 	}
 });
 
+app.TestView = Backbone.View.extend({
+	el: "#div-main",
+	title: 'Test Page',
+	render: function(){
+		app.bus.trigger("view:rendered", this.title);
+		app.loadTemplate("partials/test.html")
+		.then(function() {
+			console.log("test page loaded");
+		});
+	},
+});
+
+
 app.HomeView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Home',
@@ -52,6 +67,7 @@ app.HomeView = Backbone.View.extend({
 			ss += "Application State: <br>";
 			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.state)});
 			temp.$el.find("#div-info").html(ss);
+			console.log("home template loaded");
 		});
 	},
 });
@@ -77,7 +93,16 @@ app.LoginView = Backbone.View.extend({
 					}
 					else {
 						//sign-in successful
-						app.router.navigate("/", {'trigger':true});
+						app.router.navigate("", {'trigger':true});
+						//app.bus.trigger("login:successful");
+						console.log("now showing welcome screen.");
+						var welcome = "Welcome " + app.state.user.get('name') + "!";
+						app.navbarView.render()
+						.then(function(){
+							app.navbarView.refresh();
+							app.navbarView.update({'title': app.homeView.title});
+							app.navbarView.alert(welcome);
+						});
 					}
 				}
 			});
@@ -109,7 +134,7 @@ app.RegisterView = Backbone.View.extend({
 			var pwd = this.$el.find("#password").val() ;
 			var cnf = this.$el.find("#confirm").val() ;
 			if (pwd !== cnf) {
-				alert("New and confirm passwords should match.")
+				app.bus.trigger('alert', "New and confirm passwords should match.", 'danger');
 				return;
 			}
 			app.bus.trigger("register", {
@@ -122,7 +147,7 @@ app.RegisterView = Backbone.View.extend({
 				success: function(data){
 					//console.log('Data Received from server! ', data);
 					if (data) {
-						app.bus.trigger('alert', "You have successfully registered!");
+						app.bus.trigger('alert', "You have successfully registered! <a href='#login'>Click here</a> to login.");
 					} else {
 						app.bus.trigger('alert', "There was some problem during registration. Account with this email may already exist.", 'danger');
 					}
@@ -144,3 +169,5 @@ app.RegisterView = Backbone.View.extend({
 app.loginView = new app.LoginView();
 app.registerView = new app.RegisterView();
 app.navbarView = new app.NavbarView();
+app.homeView = new app.HomeView();
+app.testView = new app.TestView();

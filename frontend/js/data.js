@@ -20,9 +20,6 @@ app.dbs = {
 					var store = db.createObjectStore("users", {keyPath: "email"});
 					store.createIndex("name", "name", {unique:false});
 					store.createIndex("email", "email", {unique:true});
-					//~ store.transaction.oncomplete = function(event) {
-						
-					//~ };
 					app.dbs.store = store;
 					return true;
 				}
@@ -47,10 +44,10 @@ app.dbs = {
 			request.onsuccess = function(e) {
 				console.log("request.success", e);
 				var dbuser = e.target.result;
-				if (user.password == dbuser.password) {
-					dbuser.collection = app.users;
+				if (dbuser !== undefined && user.password == dbuser.password) {
+					//dbuser.collection = app.users;
 					console.log('dbuser: ', dbuser);
-					app.state.user = new app.User(dbuser);
+					app.state.user = new app.User(dbuser, {collection: app.users});
 					app.state.isLoggedIn = true;
 					callback(true);
 				}

@@ -12,6 +12,9 @@ app.bus.on("login", function(options) {
 		options.success(data);
 	});
 });
+app.bus.on("login:successful", function(options) {
+	//to be overridden
+});
 app.bus.on("register", function(options) {
 	app.dbs.register(options.data, function(data){
 		options.success(data);
@@ -24,6 +27,16 @@ app.bus.on('view:rendered', function(title) {
 	app.navbarView.update({title: title});
 	app.navbarView.clearAlerts();
 });
+
+/**
+ * Bind some views to listen for some bus events
+ * */
+//~ app.navbarView.listenTo(app.bus, "login:successful", function() {
+	//~ console.log("now showing welcome screen.");
+	//~ var welcome = "Welcome " + app.state.user.get('name') + "!";
+	//~ this.alert(welcome);
+//~ });
+
 
 /**
  * Backbone Sync Override
@@ -58,17 +71,4 @@ app.state = {
 	user: null,
 }
 app.dbs.connect(); //@todo: implement this
-
-var user1 = new app.User({
-	name: "John Doe",
-	type: "admin",
-	email: "johndoe@nowhere.com",
-	password: "",
-});
-var user2 = new app.User({
-	name: "Jane Doe",
-	type: "admin",
-	email: "janedoe@nowhere.com",
-	password: "",
-});
-app.users = new app.Users([user1, user2]);
+app.users = new app.Users([]);

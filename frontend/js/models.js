@@ -7,7 +7,6 @@ console.log("loading models");
 
 
 app.User = Backbone.Model.extend({
-	url: "/user",
 	defaults: {
 		type: "Admin", // Admin/User
 		name: "",
