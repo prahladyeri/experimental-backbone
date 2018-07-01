@@ -1,4 +1,4 @@
-# Experimental-Backbone
+# Experimental
 
 ## This is an experimental, full stack, single-page starter app I'm trying to develop using:
 

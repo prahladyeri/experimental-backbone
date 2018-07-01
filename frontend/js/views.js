@@ -18,6 +18,9 @@ app.NavbarView = Backbone.View.extend({
 		});
 	},
 	update: function(data) {
+		var icon = data.icon || "bug";
+		this.$el.find("#icon-title").removeClass();
+		this.$el.find("#icon-title").addClass("fa fa-" + icon);
 		this.$el.find("#spn-title").text(data.title);
 	},
 	refresh: function() {
@@ -44,7 +47,7 @@ app.TestView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Test Page',
 	render: function(){
-		app.bus.trigger("view:rendered", this.title);
+		app.bus.trigger("view:rendered", {title: this.title, icon: 'file'});
 		app.loadTemplate("partials/test.html")
 		.then(function() {
 			console.log("test page loaded");
@@ -57,7 +60,7 @@ app.HomeView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Home',
 	render: function(){
-		app.bus.trigger("view:rendered", this.title);
+		app.bus.trigger("view:rendered", {title: this.title, icon: 'bug'});
 		var temp = this;
 		app.loadTemplate("partials/home.html")
 		.then(function() {
@@ -113,7 +116,7 @@ app.LoginView = Backbone.View.extend({
 		//~ app.navbarView.update({
 			//~ title: this.title,
 		//~ });
-		app.bus.trigger("view:rendered", this.title);
+		app.bus.trigger("view:rendered", {title: this.title, icon: 'user'});
 		app.loadTemplate("partials/login.html")
 		.then(function() {
 			var form = $("#frm-login");
@@ -156,7 +159,7 @@ app.RegisterView = Backbone.View.extend({
 		}
 	},
 	render: function() {
-		app.bus.trigger("view:rendered", this.title);
+		app.bus.trigger("view:rendered", {title: this.title, icon: 'register'});
 		app.loadTemplate("partials/register.html")
 		.then(function() {
 			var form = $("#frm-register");

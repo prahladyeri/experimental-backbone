@@ -23,8 +23,8 @@ app.bus.on("register", function(options) {
 app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
-app.bus.on('view:rendered', function(title) {
-	app.navbarView.update({title: title});
+app.bus.on('view:rendered', function(data) {
+	app.navbarView.update(data);
 	app.navbarView.clearAlerts();
 });
 
@@ -60,7 +60,7 @@ Backbone.sync = function(method, object, options) {
  * App Start/Configuration
  * 
  * */
-app.version = "0.5";
+app.version = "0.6";
 console.log('loading app version ', app.version);
 app.config = {
 	mode: 'offline', //@todo implement indexeddb and online mode
