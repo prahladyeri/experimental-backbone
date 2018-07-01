@@ -5,11 +5,11 @@
 var app = app || {};
 app.version = "0.4";
 app.config = {
-	mode: 'offline', //@todo implement indexeddb
+	mode: 'offline', //@todo implement indexeddb and online mode
 }
 //@todo fill this after login:
-app.user = {
-	status: "signed-out",
+app.state = {
+	isLoggedIn: false,
 }
 console.log('loading app version ', app.version);
 var user1 = new app.User({
@@ -35,5 +35,8 @@ app.users = new app.Users([user1, user2]);
 
 app.bus = _.clone(Backbone.Events);
 app.bus.on("login", function(data) {
+	console.log("bus triggered!", data);
+});
+app.bus.on("register", function(data) {
 	console.log("bus triggered!", data);
 });

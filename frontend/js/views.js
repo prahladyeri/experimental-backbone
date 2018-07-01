@@ -46,10 +46,25 @@ app.RegisterView = Backbone.View.extend({
 	el: '#div-main',
 	title: "Register",
 	initialize: function() {
+		console.log("Initialized.");
 	},
 	events: {
-		"submit #frm-register": function() {
-			console.log("Form submitted!");
+		"submit #frm-register": function(event) {
+			//console.log('esm:', event, selector, method);
+			//event.preventDefault();
+			console.log('called');
+			var pwd = this.$el.find("#password").val() ;
+			var cnf = this.$el.find("#confirm").val() ;
+			if (pwd !== cnf) {
+				alert("New and confirm passwords should match.")
+				return;
+			}
+			app.bus.trigger("register", {
+				'name': this.$el.find("#name").val(),
+				'email': this.$el.find("#email").val(),
+				'password': this.$el.find("#password").val(),
+				'confirm': this.$el.find("#confirm").val(),
+			});
 		}
 	},
 	render: function() {

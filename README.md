@@ -19,12 +19,20 @@ Helpful contributions will be welcome, of course!
 ## Pending Tasks
 
 ```
-+ Create tables and data structures for user authentication.
 + Organize index.html, link stylesheets, scripts, etc.
-+ Organize code into models, collections, views and routers.
-- Plug bootstrap navbar.
+* Add navbar and footer.
++ Create tables and data structures for user authentication.
++ Create backbone models
+	- User
++ Create backbone collections
+	- Users
++ Create backbone routers and event bus.
++ Create backbone views 
+	- LoginView
+	- RegisterView
 - Create home screen dashboard.
 - Core modules:
+	- User Authentication
 	- Profile page.
 	- User management (only for admin roles).
 	

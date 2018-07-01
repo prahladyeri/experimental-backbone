@@ -17,6 +17,8 @@ app.Router = Backbone.Router.extend({
 	}
 });
 app.router = new app.Router();
+app.loginView = new app.LoginView();
+app.registerView = new app.RegisterView();
 
 app.navbarView.render()
 .then(function(){
@@ -29,7 +31,6 @@ app.navbarView.render()
 	});
 	app.router.on('route:login', function() {
 		console.log("route:login");
-		app.loginView = new app.LoginView();
 		app.loginView.render();
 	});
 	//register page
@@ -37,7 +38,7 @@ app.navbarView.render()
 		console.log("route:register");
 		//@todo: validate user and then route to login or home page.
 		//(new app.NavbarView()).render();
-		(new app.RegisterView()).render();
+		app.registerView.render();
 	});	
 	Backbone.history.start(); //@todo: check what this does.
 });
