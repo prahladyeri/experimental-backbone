@@ -13,13 +13,16 @@ app.bus.on("login", function(options) {
 	});
 });
 app.bus.on("register", function(options) {
-	options.success("Server data says hello!");
+	app.dbs.register(options.data, function(data){
+		options.success(data);
+	});
 });
 app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(title) {
 	app.navbarView.update({title: title});
+	app.navbarView.clearAlerts();
 });
 
 /**
@@ -45,16 +48,17 @@ Backbone.sync = function(method, object, options) {
  * 
  * */
 app.version = "0.5";
+console.log('loading app version ', app.version);
 app.config = {
 	mode: 'offline', //@todo implement indexeddb and online mode
 }
-app.dbs.connect(); //@todo: implement this
 //@todo fill this after login:
 app.state = {
 	isLoggedIn: false,
 	user: null,
 }
-console.log('loading app version ', app.version);
+app.dbs.connect(); //@todo: implement this
+
 var user1 = new app.User({
 	name: "John Doe",
 	type: "admin",

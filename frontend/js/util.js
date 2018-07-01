@@ -8,6 +8,16 @@ app.setFocus = function(form) {
 	form.find("input:first").focus();
 }
 
+app.authenticate = function() {
+	if (!app.state.isLoggedIn) {
+		app.router.navigate("login", {'trigger':true}) //redirect to login page
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
 app.loadTemplate = function(filename, selector) {
 	var selector = selector || "#div-main";
 	//var promise = new Promise();

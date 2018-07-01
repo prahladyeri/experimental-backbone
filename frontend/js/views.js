@@ -31,14 +31,36 @@ app.NavbarView = Backbone.View.extend({
 		var closeAnchor = '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
 		var html = '<div class="alert alert-' + flag +  '">' + closeAnchor + message + '</div>';
 		this.$el.find("#nav-alert-block").html(html);
+		//$("#div-main").append(html);
+	},
+	clearAlerts: function() {
+		this.$el.find("#nav-alert-block").html("");
 	}
+});
+
+app.HomeView = Backbone.View.extend({
+	el: "#div-main",
+	title: 'Home',
+	render: function(){
+		app.bus.trigger("view:rendered", this.title);
+		var temp = this;
+		app.loadTemplate("partials/home.html")
+		.then(function() {
+			var ss = "";
+			ss += "Application Configuration: <br>";
+			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.config)});
+			ss += "Application State: <br>";
+			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.state)});
+			temp.$el.find("#div-info").html(ss);
+		});
+	},
 });
 
 app.LoginView = Backbone.View.extend({
 	el: '#div-main',
 	title: "Login",
 	initialize: function() {
-		//_.bindAll(this, "login");
+		//_.bindAll(this, "login"); //@todo: check why is bindAll needed
 		//$("body").on('click', '#frm-login #btn-login', this.login);
 	},
 	events: {
@@ -50,12 +72,12 @@ app.LoginView = Backbone.View.extend({
 					"password": this.$el.find("#password").val(),
 				},
 				success: function(data) {
-					//console.log('Data Received from server! ', data);
 					if (!data) {
-						app.bus.trigger('alert', "Incorrect Username/Password", 'danger');
+						app.bus.trigger('alert', "Incorrect Email/Password.", 'danger');
 					}
 					else {
-						app.bus.trigger('alert', "You've signed in " + app.state.user.get('name') + "!", 'success');
+						//sign-in successful
+						app.router.navigate("/", {'trigger':true});
 					}
 				}
 			});
@@ -98,7 +120,12 @@ app.RegisterView = Backbone.View.extend({
 					'confirm': this.$el.find("#confirm").val(),
 				},
 				success: function(data){
-					console.log('Data Received from server! ', data);
+					//console.log('Data Received from server! ', data);
+					if (data) {
+						app.bus.trigger('alert', "You have successfully registered!");
+					} else {
+						app.bus.trigger('alert', "There was some problem during registration. Account with this email may already exist.", 'danger');
+					}
 				}
 			});
 		}
@@ -113,3 +140,7 @@ app.RegisterView = Backbone.View.extend({
 
 	},
 });
+
+app.loginView = new app.LoginView();
+app.registerView = new app.RegisterView();
+app.navbarView = new app.NavbarView();

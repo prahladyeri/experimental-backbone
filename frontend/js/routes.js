@@ -4,7 +4,6 @@
  * */
 var app = app || {};
 console.log("loading routes");
-app.navbarView = new app.NavbarView();
 
 app.Router = Backbone.Router.extend({
 	initialize: function() {
@@ -17,17 +16,14 @@ app.Router = Backbone.Router.extend({
 	}
 });
 app.router = new app.Router();
-app.loginView = new app.LoginView();
-app.registerView = new app.RegisterView();
 
 app.navbarView.render()
 .then(function(){
 	//home page
 	app.router.on('route:index', function() {
 		console.log("route:index");
-		//@todo: validate user and then redirect to login or home page.
-		app.router.navigate("login", {'trigger':true})
-		//(new app.NavbarView()).render();
+		if (!app.authenticate()) return;
+		(new app.HomeView()).render();
 	});
 	app.router.on('route:login', function() {
 		console.log("route:login");
