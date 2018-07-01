@@ -35,7 +35,8 @@ Helpful contributions will be welcome, of course!
 	- User Authentication
 	- Profile page.
 	- User management (only for admin roles).
-	
++ Add Page change animation and other shiny things.
+		
 ----
 
 Legend:
