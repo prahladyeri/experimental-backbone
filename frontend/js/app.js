@@ -70,5 +70,12 @@ app.state = {
 	isLoggedIn: false,
 	user: null,
 }
-app.dbs.connect(); //@todo: implement this
+app.dbs.connect(function(){
+	app.dbs.getState(function(e){
+		console.log("dbs.connect", e);
+		app.state = e;
+		app.state.user = new app.User(e, {collection: app.users});
+	});
+});
+
 app.users = new app.Users([]);
