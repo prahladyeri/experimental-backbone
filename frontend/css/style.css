@@ -12,11 +12,21 @@ body {
 	border-radius: 0px;
 }
 
-
 div#nav-right-block {
 	width: 305px;
 	padding: 10px;
 	padding-bottom: 0px;
+}
+
+
+.main-wrapper {
+	min-height: 75vh;
+	margin:0 auto -3.2vh;
+	padding-bottom: 8vh;
+}
+
+#nav-footer {
+	height: 4vh;
 }
 
 .icon-size

@@ -11,21 +11,24 @@
 </head>
 <body>
 <div class='container-fluid'>
-	<div class='row'>
+	<div class='row navbar-wrapper'>
 		<div id="div-navbar" class='col-md-12'>
 		</div>
 	</div>
-	<div class='row'>
+	<div class='row main-wrapper'>
 		<div id='div-main' class='col-md-offset-2 col-md-8'>
 		
 		</div>
 	</div>
-	<div id="nav-footer" class='row navbar-fixed-bottom' style="">
+	<div id="nav-footer" class='row clearfix' style="">
 		<div class='col-md-4'>
-			<span class='text-danger pull-left'>Mode: <span class='text-danger' id='app-spn-mode'></span></span>
+			<kbd class='pull-left'>Version: <span class='' id='app-spn-version'></span></kbd>
 		</div>
 		<div class='col-md-4'>
 			<span style="" class="text-muted">&copy;<a href="https://www.prahladyeri.com">Prahlad Yeri</a> 2018<span id='app-spn-year-postfix'></span>. MIT License. <a href="https://github.com/prahladyeri/experimental-backbone">Fork on Github</a>.</span>
+		</div>
+		<div class='col-md-4'>
+			<kbd class='pull-right'>Mode: <span class='' id='app-spn-mode'></span></kbd>
 		</div>
 	</div>
 </div>
@@ -33,6 +36,7 @@
 	document.addEventListener("DOMContentLoaded", function(){
 		console.log('mode is ',app.config.mode);
 		document.getElementById("app-spn-mode").textContent = app.config.mode;
+		document.getElementById("app-spn-version").textContent = app.version;
 		var cyrr = (new Date()).getFullYear();
 		if (cyrr != "2018") {
 			document.getElementById("app-spn-year-postfix").textContent = "-" + cyrr;
@@ -49,6 +53,7 @@
 	<script src="js/views.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/routes.js"></script>
+	<script src="js/data.js"></script>
 	<script src="js/app.js"></script>
 </body>
 </html>
