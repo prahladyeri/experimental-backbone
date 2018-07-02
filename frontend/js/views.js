@@ -91,6 +91,7 @@ app.HomeView = Backbone.View.extend({
 				app.state.justLoggedIn = false;
 				var welcome = "Welcome " + app.state.user.name + "!";
 				app.navbarView.alert(welcome);
+				app.dbs.saveState();
 			}
 		});
 	},
