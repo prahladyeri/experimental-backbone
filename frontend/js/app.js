@@ -1,8 +1,10 @@
 var app = app || {};
+app.version = "0.7";
 /**
  * Event Bus
  * 
  * */
+console.log('loading event bus');
 app.bus = _.clone(Backbone.Events);
 app.bus.on('all', function(event) { //for logging
 	console.log("bus triggered. event: ", event, "arguments: ", arguments);
@@ -13,7 +15,8 @@ app.bus.on("login", function(options) {
 	});
 });
 app.bus.on("login:successful", function(options) {
-	//to be overridden
+	console.log("login successful. now saving state.");
+	app.dbs.saveState();
 });
 app.bus.on("register", function(options) {
 	app.dbs.register(options.data, function(data){
@@ -33,7 +36,7 @@ app.bus.on('view:rendered', function(data) {
  * */
 //~ app.navbarView.listenTo(app.bus, "login:successful", function() {
 	//~ console.log("now showing welcome screen.");
-	//~ var welcome = "Welcome " + app.state.user.get('name') + "!";
+	//~ var welcome = "Welcome " + app.state.user.name + "!";
 	//~ this.alert(welcome);
 //~ });
 
@@ -60,7 +63,6 @@ Backbone.sync = function(method, object, options) {
  * App Start/Configuration
  * 
  * */
-app.version = "0.6";
 console.log('loading app version ', app.version);
 app.config = {
 	mode: 'offline', //@todo implement indexeddb and online mode
@@ -69,13 +71,26 @@ app.config = {
 app.state = {
 	isLoggedIn: false,
 	user: null,
+	isNew: false, //first time use, database didn't exist before
 }
 app.dbs.connect(function(){
-	app.dbs.getState(function(e){
-		console.log("dbs.connect", e);
-		app.state = e;
-		app.state.user = new app.User(e, {collection: app.users});
-	});
+	app.bus.trigger("database:connected");
+	console.log("database connected. new state: ", app.state.isNew);
+	if (app.state.isNew) {
+		app.state.isNew = false;
+		app.initRoutes();
+	}
+	else {
+		console.log("now calling getState.");
+		app.dbs.getState(function(e){
+			console.log("dbs.connect:getState", e);
+			app.state = e;
+			app.initRoutes();
+		});
+	}
+
 });
 
+//create users collection
 app.users = new app.Users([]);
+//refresh navbar view

@@ -31,11 +31,11 @@
 			</ul>
 		</li>
 	  </ul>
-	<ul id='navbar-user-block' class="nav navbar-nav navbar-right hidden">
+	<ul id='navbar-user-block' class="nav navbar-nav navbar-right">
 		<% if (app.state.user !== null) { %>
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				<i class="fa fa-user">&nbsp;</i><%= (app.state.user == null ? "" : app.state.user.get("name")) %><span class="caret"></span>
+				<i class="fa fa-user">&nbsp;</i><%= app.state.user.name %><span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
 				<li>
@@ -47,8 +47,8 @@
 								</p>
 							</div>
 							<div class="col-lg-8">
-								<h3 class="text-left"><%= app.state.user.get("name") %></h3>
-								<h5 class='text-left text-sm'><%= app.state.user.get('email') %></h5>
+								<h3 class="text-left"><%= app.state.user.name %></h3>
+								<h5 class='text-left text-sm'><%= app.state.user.email %></h5>
 								<p class="text-left">
 									<a href="#" class="btn btn-primary btn-block btn-md hidden">Profile</a>
 								</p>
@@ -59,7 +59,7 @@
 				<li class="divider"></li>
 				<li ><a href="/manage_users">Manage User Access <span class="fa fa-lg fa-user icon-right"></span></a></li>
 				<li class="divider"></li>
-				<li><a href="javascript:" onclick="app.signout();">Sign Out <span class="fa fa-lg fa-sign-out icon-right"></span></a></li>
+				<li><a href="#login" onclick="">Sign Out <span class="fa fa-lg fa-sign-out icon-right"></span></a></li>
 			</ul>
 		</li>
 		<% } %>

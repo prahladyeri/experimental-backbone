@@ -24,12 +24,12 @@ app.NavbarView = Backbone.View.extend({
 		this.$el.find("#spn-title").text(data.title);
 	},
 	refresh: function() {
-		if (app.state.isLoggedIn) {
-			$("#navbar-user-block").removeClass('hidden');
-		}
-		else {
-			$("#navbar-user-block").addClass('hidden');
-		}
+		//~ if (app.state.isLoggedIn) {
+			//~ $("#navbar-user-block").removeClass('hidden');
+		//~ }
+		//~ else {
+			//~ $("#navbar-user-block").addClass('hidden');
+		//~ }
 	},
 	alert: function(message, flag) {
 		var flag = flag || "success";
@@ -97,12 +97,11 @@ app.LoginView = Backbone.View.extend({
 					else {
 						//sign-in successful
 						app.router.navigate("", {'trigger':true});
-						//app.bus.trigger("login:successful");
 						console.log("now showing welcome screen.");
-						var welcome = "Welcome " + app.state.user.get('name') + "!";
+						var welcome = "Welcome " + app.state.user.name + "!";
 						app.navbarView.render()
 						.then(function(){
-							app.navbarView.refresh();
+							//app.navbarView.refresh();
 							app.navbarView.update({'title': app.homeView.title});
 							app.navbarView.alert(welcome);
 						});
@@ -116,6 +115,8 @@ app.LoginView = Backbone.View.extend({
 		//~ app.navbarView.update({
 			//~ title: this.title,
 		//~ });
+		app.signout();
+		app.navbarView.render();
 		app.bus.trigger("view:rendered", {title: this.title, icon: 'user'});
 		app.loadTemplate("partials/login.html")
 		.then(function() {

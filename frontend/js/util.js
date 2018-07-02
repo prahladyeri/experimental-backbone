@@ -18,13 +18,16 @@ app.authenticate = function() {
 }
 
 app.signout = function() {
+	//app.router.navigate("/login", {'trigger': true});
 	app.state.user = null;
 	app.state.isLoggedIn = false;
-	app.router.navigate("/login", {'trigger': true});
+	app.dbs.saveState();
 }
 
 
 app.loadTemplate = function(filename, selector) {
+	console.log('loading template ', filename, selector);
+	console.log('loadTemplate: ', app.state.user);
 	var selector = selector || "#div-main";
 	//var promise = new Promise();
 	return new Promise(function(resolve) {

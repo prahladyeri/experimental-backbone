@@ -14,6 +14,7 @@ app.dbs = {
 			} else {
 				var request = indexedDB.open("experiment");
 				request.onupgradeneeded = function(event) {
+					app.state.isNew = true;
 					console.log("request:onupgradeneeded");
 					//e.target.transaction.abort();
 					var db = event.target.result;
@@ -22,7 +23,7 @@ app.dbs = {
 					var store = db.createObjectStore("users", {keyPath: "email"});
 					app.dbs.store = store;
 					console.log("store created.");
-					store.createIndex("name", "name", {unique:false});
+					//store.createIndex("name", "name", {unique:false});
 					store.createIndex("email", "email", {unique:true});
 					//create another store.
 					//var dbver =  parseInt(db.version);
@@ -74,8 +75,10 @@ app.dbs = {
 				if (dbuser !== undefined && user.password == dbuser.password) {
 					//dbuser.collection = app.users;
 					console.log('dbuser: ', dbuser);
-					app.state.user = new app.User(dbuser, {collection: app.users});
+					//app.state.user = new app.User(dbuser, {collection: app.users});
+					app.state.user = dbuser;
 					app.state.isLoggedIn = true;
+					app.bus.trigger("login:successful");
 					callback(true);
 				}
 				else {
@@ -134,7 +137,9 @@ app.dbs = {
 	
 	saveState: function() {
 		var tstore = app.dbs.db.transaction('state','readwrite').objectStore('state');
-		request = tstore.put(_.extend(app.state, {id:1}));
+		var obj = _.extend(app.state, {id:1})
+		console.log("saveState:obj", obj);
+		request = tstore.put(obj);
 		request.onsuccess = function(event) {
 			console.log('saveState', event);
 		}
