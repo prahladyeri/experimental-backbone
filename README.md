@@ -1,6 +1,6 @@
 # Experimental
 
-![Experimental UI](https://user-images.githubusercontent.com/5732256/42159527-c06ca2f2-7e11-11e8-8272-0fdfceb05537.png)
+## Demo URL: https://prahladyeri.github.io/experimental-backbone/
 
 ## This is an experimental, full stack, single-page starter app I'm trying to develop using:
 
