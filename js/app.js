@@ -16,6 +16,7 @@ app.bus.on("login", function(options) {
 });
 app.bus.on("login:successful", function(options) {
 	console.log("login successful. now saving state.");
+	app.state.justLoggedIn = true;
 	app.dbs.saveState();
 });
 app.bus.on("register", function(options) {
@@ -27,7 +28,7 @@ app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(data) {
-	console.log('now updating view title');
+	console.log('now updating navbar data', data);
 	app.navbarView.update(data);
 	app.navbarView.clearAlerts();
 });
@@ -72,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	//@todo fill this after login:
 	app.state = {
 		isLoggedIn: false,
+		justLoggedIn: false,
 		user: null,
 		isNew: false, //first time use, database didn't exist before
 	}
