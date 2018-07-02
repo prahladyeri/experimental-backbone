@@ -16,6 +16,7 @@ app.bus.on("login", function(options) {
 });
 app.bus.on("login:successful", function(options) {
 	console.log("login successful. now saving state.");
+	app.state.justLoggedIn = true;
 	app.dbs.saveState();
 });
 app.bus.on("register", function(options) {
@@ -27,7 +28,7 @@ app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(data) {
-	console.log('now updating view title');
+	console.log('now updating navbar data', data);
 	app.navbarView.update(data);
 	app.navbarView.clearAlerts();
 });
@@ -64,34 +65,47 @@ Backbone.sync = function(method, object, options) {
  * App Start/Configuration
  * 
  * */
-console.log('loading app version ', app.version);
-app.config = {
-	mode: 'offline', //@todo implement indexeddb and online mode
-}
-//@todo fill this after login:
-app.state = {
-	isLoggedIn: false,
-	user: null,
-	isNew: false, //first time use, database didn't exist before
-}
-app.dbs.connect(function(){
-	app.bus.trigger("database:connected");
-	console.log("database connected. new state: ", app.state.isNew);
-	if (app.state.isNew) {
-		app.state.isNew = false;
-		app.initRoutes();
+document.addEventListener("DOMContentLoaded", function(){
+	console.log('loading app version ', app.version);
+	app.config = {
+		mode: 'offline', //@todo implement indexeddb and online mode
 	}
-	else {
-		console.log("now calling getState.");
-		app.dbs.getState(function(e){
-			console.log("dbs.connect:getState", e);
-			app.state = e;
+	//@todo fill this after login:
+	app.state = {
+		isLoggedIn: false,
+		justLoggedIn: false,
+		user: null,
+		isNew: false, //first time use, database didn't exist before
+	}
+	app.dbs.connect(function(){
+		app.bus.trigger("database:connected");
+		console.log("database connected. new state: ", app.state.isNew);
+		if (app.state.isNew) {
+			app.state.isNew = false;
 			app.initRoutes();
-		});
-	}
+		}
+		else {
+			console.log("now calling getState.");
+			app.dbs.getState(function(e){
+				console.log("dbs.connect:getState", e);
+				app.state = e;
+				app.initRoutes();
+			});
+		}
 
+	});
+
+	//create users collection
+	app.users = new app.Users([]);
+	
+	//trivia
+	document.getElementById("app-spn-mode").textContent = app.config.mode;
+	document.getElementById("app-spn-version").textContent = app.version;
+	var cyrr = (new Date()).getFullYear();
+	if (cyrr != "2018") {
+		document.getElementById("app-spn-year-postfix").textContent = "-" + cyrr;
+	}
 });
 
-//create users collection
-app.users = new app.Users([]);
-//refresh navbar view
+
+

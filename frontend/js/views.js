@@ -19,9 +19,11 @@ app.NavbarView = Backbone.View.extend({
 	},
 	update: function(data) {
 		var icon = data.icon || "bug";
-		this.$el.find("#icon-title").removeClass();
-		this.$el.find("#icon-title").addClass("fa fa-" + icon);
-		this.$el.find("#spn-title").text(data.title);
+		console.log("navbarView:update: now updating navbar data to control: ", this.$el.find("#spn-title"));
+		console.log("navbarView:update: values: ", data.title, icon);
+		$("#icon-title").removeClass();
+		$("#icon-title").addClass("fa fa-" + icon);
+		$("#spn-title").text(data.title);
 	},
 	refresh: function() {
 		//~ if (app.state.isLoggedIn) {
@@ -85,7 +87,11 @@ app.HomeView = Backbone.View.extend({
 			ss += "Application State: <br>";
 			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.state)});
 			temp.$el.find("#div-info").html(ss);
-			console.log("home template loaded");
+			if (app.state.justLoggedIn) {
+				app.state.justLoggedIn = false;
+				var welcome = "Welcome " + app.state.user.name + "!";
+				app.navbarView.alert(welcome);
+			}
 		});
 	},
 });
@@ -111,14 +117,12 @@ app.LoginView = Backbone.View.extend({
 					}
 					else {
 						//sign-in successful
-						app.router.navigate("", {'trigger':true});
-						console.log("now showing welcome screen.");
-						var welcome = "Welcome " + app.state.user.name + "!";
 						app.navbarView.render()
-						.then(function(){
+						.then(function() {
+							app.router.navigate("#", {'trigger':true});
 							//app.navbarView.refresh();
-							app.navbarView.update({'title': app.homeView.title});
-							app.navbarView.alert(welcome);
+							//app.navbarView.update({'title': app.homeView.title});
+							//app.navbarView.alert(welcome);
 						});
 					}
 				}
@@ -127,17 +131,16 @@ app.LoginView = Backbone.View.extend({
 	},
 	render: function() {
 		//$("#spn-title").text(this.title);
-		//~ app.navbarView.update({
-			//~ title: this.title,
-		//~ });
-		app.signout();
-		app.navbarView.render();
 		title = this.title;
-		app.loadTemplate("partials/login.html")
-		.then(function() {
-			var form = $("#frm-login");
-			app.setFocus(form);
-			app.bus.trigger("view:rendered", {title: title, icon: 'user'});
+		app.signout();
+		app.navbarView.render()
+		.then(function(){
+			app.loadTemplate("partials/login.html")
+			.then(function() {
+				app.bus.trigger("view:rendered", {title: title, icon: 'user'});
+				var form = $("#frm-login");
+				app.setFocus(form);
+			});			
 		});
 	},
 });
@@ -176,9 +179,9 @@ app.RegisterView = Backbone.View.extend({
 		}
 	},
 	render: function() {
-		app.bus.trigger("view:rendered", {title: this.title, icon: 'register'});
 		app.loadTemplate("partials/register.html")
 		.then(function() {
+			app.bus.trigger("view:rendered", {title: this.title, icon: 'register'});			
 			var form = $("#frm-register");
 			app.setFocus(form);
 		});
