@@ -20,7 +20,7 @@ Helpful contributions will be welcome, of course!
 
 ## Running the app
 
-Just download and git clone this repository and directly start serving with an http file server such as python's `http.server` module or PHP's built-in server (`PHP -S <end-point>`):
+Just download or git clone this repository and directly start serving with an http file server such as python's `http.server` module or PHP's built-in server (`PHP -S <end-point>`):
 
 ```
 $ git clone git@github.com:prahladyeri/experimental-backbone.git .
