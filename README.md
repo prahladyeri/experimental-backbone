@@ -18,6 +18,19 @@
 This is freely licensed under MIT and you are free to share and use.
 Helpful contributions will be welcome, of course!
 
+## Running the app
+
+Just download and git clone this repository and directly start serving with an http file server such as python's `http.server` module or PHP's built-in server (`PHP -S <end-point>`):
+
+```
+$ git clone git@github.com:prahladyeri/experimental-backbone.git .
+$ python -m http.server
+$ Serving HTTP on 0.0.0.0 port 8000 ...
+...
+```
+
+In order to simulate delays that usually happen in a live environment, you can also use the [http-live-simulator](https://github.com/prahladyeri/http-live-simulator) tool I've written. This tool adds a 300-500 milliseconds delay to each requested resource to simulate a live hosted environment. This is very important for javascript applications as these delays cause a significant funcitional impact on event loop based asyncronous programming model.
+
 ## Pending Tasks
 
 ```
