@@ -44,6 +44,7 @@ Helpful contributions will be welcome, of course!
 - Add Page change animation and other shiny things
 - Configure "Experimental" in a variable instead of hard-coding it
 - Online mode and backend database handling
+- Check why indexeddb isn't working in private browsing mode
 ----
 
 Legend:
