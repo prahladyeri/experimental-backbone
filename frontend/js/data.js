@@ -50,7 +50,7 @@ app.dbs = {
 					//callback(e); @todo: check why this is not firing
 				}
 				request.onsuccess = function(e) {
-					console.log("request:onsuccess: ", e);
+					console.log("request:onsuccess");
 					app.dbs.db = e.target.result;
 					callback(e);
 				}
@@ -130,7 +130,7 @@ app.dbs = {
 		var tstore = app.dbs.db.transaction('state','readwrite').objectStore('state');
 		request = tstore.get(1);
 		request.onsuccess = function(e) {
-			console.log('getState:success', e.target.result);
+			console.log('getState:request:onsuccess');
 			callback(e.target.result);
 		}
 	},

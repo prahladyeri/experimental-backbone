@@ -26,12 +26,11 @@ app.signout = function() {
 
 
 app.loadTemplate = function(filename, selector) {
-	console.log('loading template ', filename, selector);
-	console.log('loadTemplate: ', app.state.user);
 	var selector = selector || "#div-main";
+	console.log('loading template ', filename, selector);
 	//var promise = new Promise();
 	return new Promise(function(resolve) {
-		$("<div></div>").load(filename  + "?" + Date.now(), function() {
+		$("<div></div>").load(filename, function() { //  + "?" + Date.now()
 			//console.log('div.app contents: ', $("div.app").html());
 			var tempstr =  $(this).html(); //$("div.app").html();
 			//console.log("template: ", tempstr);

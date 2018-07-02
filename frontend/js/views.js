@@ -19,8 +19,6 @@ app.NavbarView = Backbone.View.extend({
 	},
 	update: function(data) {
 		var icon = data.icon || "bug";
-		console.log("navbarView:update: now updating navbar data to control: ", this.$el.find("#spn-title"));
-		console.log("navbarView:update: values: ", data.title, icon);
 		$("#icon-title").removeClass();
 		$("#icon-title").addClass("fa fa-" + icon);
 		$("#spn-title").text(data.title);
@@ -60,8 +58,9 @@ app.TestView = Backbone.View.extend({
 
 app.AboutView = Backbone.View.extend({
 	el: "#div-main",
-	title: "About Experimental",
+	title: "About ",
 	render: function() {
+		this.title = "About " + app.config.name;
 		var temp = this;
 		title = this.title;
 		app.loadTemplate("partials/about.html")
@@ -88,6 +87,10 @@ app.HomeView = Backbone.View.extend({
 			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.state)});
 			temp.$el.find("#div-info").html(ss);
 			if (app.state.justLoggedIn) {
+				//~ app.navbarView.render()
+				//~ .then(function(){
+					//~ navbarView.update({title: title, icon: 'bug'});
+				//~ });
 				app.state.justLoggedIn = false;
 				var welcome = "Welcome " + app.state.user.name + "!";
 				app.navbarView.alert(welcome);
@@ -117,13 +120,11 @@ app.LoginView = Backbone.View.extend({
 						app.bus.trigger('alert', "Incorrect Email/Password.", 'danger');
 					}
 					else {
+						//~ app.router.navigate("#", {'trigger':true});
 						//sign-in successful
 						app.navbarView.render()
 						.then(function() {
 							app.router.navigate("#", {'trigger':true});
-							//app.navbarView.refresh();
-							//app.navbarView.update({'title': app.homeView.title});
-							//app.navbarView.alert(welcome);
 						});
 					}
 				}

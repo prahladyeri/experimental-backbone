@@ -7,7 +7,10 @@ app.version = "0.7";
 console.log('loading event bus');
 app.bus = _.clone(Backbone.Events);
 app.bus.on('all', function(event) { //for logging
-	console.log("bus triggered. event: ", event, "arguments: ", arguments);
+	console.log("bus triggered. event: ", event);
+});
+app.bus.on('app:loaded', function(e) {
+	$(".show-on-start").removeClass('hidden');
 });
 app.bus.on("login", function(options) {
 	app.dbs.login(options.data, function(data){
@@ -28,7 +31,6 @@ app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(data) {
-	console.log('now updating navbar data', data);
 	app.navbarView.update(data);
 	app.navbarView.clearAlerts();
 });
@@ -68,9 +70,10 @@ Backbone.sync = function(method, object, options) {
 document.addEventListener("DOMContentLoaded", function(){
 	console.log('loading app version ', app.version);
 	app.config = {
+		name: 'Todo App',
 		mode: 'offline', //@todo implement indexeddb and online mode
 	}
-	//@todo fill this after login:
+	document.getElementsByTagName("title")[0].text = app.config.name;
 	app.state = {
 		isLoggedIn: false,
 		justLoggedIn: false,
@@ -79,17 +82,17 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	app.dbs.connect(function(){
 		app.bus.trigger("database:connected");
-		console.log("database connected. new state: ", app.state.isNew);
+		//console.log("database connected. new state: ", app.state.isNew);
 		if (app.state.isNew) {
 			app.state.isNew = false;
 			app.initRoutes();
 		}
 		else {
-			console.log("now calling getState.");
 			app.dbs.getState(function(e){
-				console.log("dbs.connect:getState", e);
 				app.state = e;
-				app.initRoutes();
+				app.initRoutes(function(e) {
+					app.bus.trigger("app:loaded", e);
+				});
 			});
 		}
 
@@ -98,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	//create users collection
 	app.users = new app.Users([]);
 	
-	//trivia
+	//dom startup
 	document.getElementById("app-spn-mode").textContent = app.config.mode;
 	document.getElementById("app-spn-version").textContent = app.version;
 	var cyrr = (new Date()).getFullYear();
