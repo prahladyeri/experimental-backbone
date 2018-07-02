@@ -1,6 +1,6 @@
 # Experimental
 
-## Demo URL: https://prahladyeri.github.io/experimental-backbone/
+- Demo URL: https://prahladyeri.github.io/experimental-backbone/
 
 ## This is an experimental, full stack, single-page starter app I'm trying to develop using:
 
