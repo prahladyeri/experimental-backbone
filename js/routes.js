@@ -24,34 +24,37 @@ app.initRoutes = function() {
 		console.log("database:connected", app.state.user);
 	});
 
-	app.navbarView.render();
-	app.router.on('route:index', function() {
-		console.log("route:index");
-		if (!app.authenticate()) return;
-		app.homeView.render();
+	app.navbarView.render()
+	.then(function(){
+		app.router.on('route:index', function() {
+			console.log("route:index");
+			if (!app.authenticate()) return;
+			app.homeView.render();
+		});
+		app.router.on('route:login', function() {
+			console.log("route:login");
+			app.loginView.render();
+		});
+		app.router.on('route:register', function() {
+			console.log("route:register");
+			app.registerView.render();
+		});	
+		app.router.on('route:about', function() {
+			console.log("route:about");
+			if (!app.authenticate()) return;
+			app.aboutView.render();
+		});
+		app.router.on('route:test', function() {
+			console.log("route:test");
+			if (!app.authenticate()) return;
+			app.testView.render();
+		});
+		app.router.on('route:defaultRoute', function() {
+			console.log("route:defaultRoute");
+			if (!app.authenticate()) return;
+			app.testView.render();
+		});
+		Backbone.history.start(); //@todo: check what this does.
 	});
-	app.router.on('route:login', function() {
-		console.log("route:login");
-		app.loginView.render();
-	});
-	app.router.on('route:register', function() {
-		console.log("route:register");
-		app.registerView.render();
-	});	
-	app.router.on('route:about', function() {
-		console.log("route:about");
-		if (!app.authenticate()) return;
-		app.aboutView.render();
-	});
-	app.router.on('route:test', function() {
-		console.log("route:test");
-		if (!app.authenticate()) return;
-		app.testView.render();
-	});
-	app.router.on('route:defaultRoute', function() {
-		console.log("route:defaultRoute");
-		if (!app.authenticate()) return;
-		app.testView.render();
-	});
-	Backbone.history.start(); //@todo: check what this does.
+
 }
