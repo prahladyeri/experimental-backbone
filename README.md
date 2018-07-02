@@ -1,5 +1,7 @@
 # Experimental
 
+![Experimental UI](https://user-images.githubusercontent.com/5732256/42159527-c06ca2f2-7e11-11e8-8272-0fdfceb05537.png)
+
 ## This is an experimental, full stack, single-page starter app I'm trying to develop using:
 
 - Front-end
@@ -19,24 +21,29 @@ Helpful contributions will be welcome, of course!
 ## Pending Tasks
 
 ```
-+ Organize index.html, link stylesheets, scripts, etc.
+* Organize index.html, link stylesheets, scripts, etc.
 * Add navbar and footer.
-+ Create tables and data structures for user authentication.
+* Create tables and data structures for user authentication
 + Create backbone models
-	- User
+	+ User
 + Create backbone collections
-	- Users
-+ Create backbone routers and event bus.
+	+ Users
+* Create backbone routers and event bus.
 + Create backbone views 
 	- LoginView
 	- RegisterView
-- Create home screen dashboard.
-- Core modules:
-	- User Authentication
-	- Profile page.
-	- User management (only for admin roles).
-+ Add Page change animation and other shiny things.
-		
+	- HomeView
+	- AboutView
+	- TestView
++ Create home dashboard.
++ Core modules:
+	* Login/Logout
+	- Profile page
+	- User management (only for admin roles)
+	+ About Page
+- Add Page change animation and other shiny things
+- Configure "Experimental" in a variable instead of hard-coding it
+- Online mode and backend database handling
 ----
 
 Legend:

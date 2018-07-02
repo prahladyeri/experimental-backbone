@@ -15,6 +15,7 @@ app.initRoutes = function() {
 			"register": "register",
 			"lorem": "test",
 			"ipsum": "test",
+			'about': 'about',
 			'*path':  'defaultRoute'
 		}
 	});
@@ -37,6 +38,11 @@ app.initRoutes = function() {
 		console.log("route:register");
 		app.registerView.render();
 	});	
+	app.router.on('route:about', function() {
+		console.log("route:about");
+		if (!app.authenticate()) return;
+		app.aboutView.render();
+	});
 	app.router.on('route:test', function() {
 		console.log("route:test");
 		if (!app.authenticate()) return;

@@ -27,6 +27,7 @@ app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(data) {
+	console.log('now updating view title');
 	app.navbarView.update(data);
 	app.navbarView.clearAlerts();
 });

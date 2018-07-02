@@ -47,10 +47,24 @@ app.TestView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Test Page',
 	render: function(){
-		app.bus.trigger("view:rendered", {title: this.title, icon: 'file'});
+		title = this.title;
 		app.loadTemplate("partials/test.html")
 		.then(function() {
+			app.bus.trigger("view:rendered", {title: title, icon: 'file'});
 			console.log("test page loaded");
+		});
+	},
+});
+
+app.AboutView = Backbone.View.extend({
+	el: "#div-main",
+	title: "About Experimental",
+	render: function() {
+		var temp = this;
+		title = this.title;
+		app.loadTemplate("partials/about.html")
+		.then(function() {
+			app.bus.trigger("view:rendered", {title: title, icon: 'info-circle'});			
 		});
 	},
 });
@@ -60,10 +74,11 @@ app.HomeView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Home',
 	render: function(){
-		app.bus.trigger("view:rendered", {title: this.title, icon: 'bug'});
 		var temp = this;
+		title = this.title;
 		app.loadTemplate("partials/home.html")
 		.then(function() {
+			app.bus.trigger("view:rendered", {title: title, icon: 'bug'});
 			var ss = "";
 			ss += "Application Configuration: <br>";
 			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.config)});
@@ -117,11 +132,12 @@ app.LoginView = Backbone.View.extend({
 		//~ });
 		app.signout();
 		app.navbarView.render();
-		app.bus.trigger("view:rendered", {title: this.title, icon: 'user'});
+		title = this.title;
 		app.loadTemplate("partials/login.html")
 		.then(function() {
 			var form = $("#frm-login");
 			app.setFocus(form);
+			app.bus.trigger("view:rendered", {title: title, icon: 'user'});
 		});
 	},
 });
@@ -175,3 +191,4 @@ app.registerView = new app.RegisterView();
 app.navbarView = new app.NavbarView();
 app.homeView = new app.HomeView();
 app.testView = new app.TestView();
+app.aboutView = new app.AboutView();

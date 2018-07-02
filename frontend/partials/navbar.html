@@ -10,9 +10,9 @@
 	  </button>
 	  <a class="navbar-brand" href="#"><i class="fa fa-lg fa-home"></i> Experimental v<%= app.version %></a></div>
 	<div id="navbar" class="navbar-collapse collapse ">
-	  <ul id='navbar-main-block' class="nav navbar-nav">
+	  <ul id='navbar-main-block' class="nav navbar-nav <% if (app.state.user === null){%> hidden <%} %>">
 		<li class='dropdown'>
-			<a href="#" class='data-toggle' data-toggle='dropdown'>Lorem <span class="caret"></span></a>
+			<a href="#" class='data-toggle' data-toggle='dropdown'>Tools <span class="caret"></span></a>
 			<ul class='dropdown-menu'>
 				<li><a href="#lorem"><i class="fa fa-lg fa-file">&nbsp;</i>Lorem</a></li>
 				<li><a href="#ipsum"><i class="fa fa-lg fa-file">&nbsp;</i>Ipsum</a></li>
@@ -22,12 +22,12 @@
 			</ul>
 		</li>
 		<li class='dropdown'>
-			<a href="#" class='data-toggle' data-toggle='dropdown'>Ipsum <span class="caret"></span></a>
+			<a href="#" class='data-toggle' data-toggle='dropdown'>Settings <span class="caret"></span></a>
 			<ul class='dropdown-menu'>
 				<li><a href="#consectetur"><i class="fa fa-lg fa-folder-open">&nbsp;</i>Consectetur</a></li>
 				<li><a href="#adipiscing"><i class="fa fa-lg fa-paper-plane">&nbsp;</i>Adipiscing</a></li>
-				<li class=""></li>
-				<li><a href="#elit"><i class="fa fa-lg fa-info-circle">&nbsp;</i>About Experimental</a></li>
+				<li class="divider"></li>
+				<li><a href="#about"><i class="fa fa-lg fa-info-circle">&nbsp;</i>About Experimental</a></li>
 			</ul>
 		</li>
 	  </ul>
@@ -57,7 +57,7 @@
 					</div>
 				</li>
 				<li class="divider"></li>
-				<li ><a href="/manage_users">Manage User Access <span class="fa fa-lg fa-user icon-right"></span></a></li>
+				<li ><a href="#manage_users">Manage User Access <span class="fa fa-lg fa-user icon-right"></span></a></li>
 				<li class="divider"></li>
 				<li><a href="#login" onclick="">Sign Out <span class="fa fa-lg fa-sign-out icon-right"></span></a></li>
 			</ul>
