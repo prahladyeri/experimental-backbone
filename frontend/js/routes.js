@@ -16,6 +16,7 @@ app.initRoutes = function(callback) {
 			"lorem": "test",
 			"ipsum": "test",
 			'about': 'about',
+			'longrunning': 'longrunning',
 			'*path':  'defaultRoute'
 		}
 	});
@@ -48,6 +49,15 @@ app.initRoutes = function(callback) {
 			console.log("route:test");
 			if (!app.authenticate()) return;
 			app.testView.render();
+		});
+		app.router.on('route:longrunning', function(){
+			console.log('route:longrunning');
+			if (!app.authenticate()) return;
+			app.navbarView.render();
+			app.sleep(2500)
+			.then(function(e){
+				app.testView.render();
+			});
 		});
 		app.router.on('route:defaultRoute', function() {
 			console.log("route:defaultRoute");

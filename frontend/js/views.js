@@ -127,15 +127,25 @@ app.LoginView = Backbone.View.extend({
 		//$("#spn-title").text(this.title);
 		title = this.title;
 		app.signout();
-		app.navbarView.render()
-		.then(function(){
-			app.loadTemplate("partials/login.html")
-			.then(function() {
-				app.bus.trigger("view:rendered", {title: title, icon: 'user'});
-				var form = $("#frm-login");
-				app.setFocus(form);
-			});			
+
+		var deferred = app.navbarView.render();
+		app.loadTemplate("partials/login.html")
+		.then(function() {
+			app.bus.trigger("view:rendered", {title: title, icon: 'user', deferred: deferred});
+			var form = $("#frm-login");
+			app.setFocus(form);
 		});
+
+
+		//~ app.navbarView.render()
+		//~ .then(function(){
+			//~ app.loadTemplate("partials/login.html")
+			//~ .then(function() {
+				//~ app.bus.trigger("view:rendered", {title: title, icon: 'user'});
+				//~ var form = $("#frm-login");
+				//~ app.setFocus(form);
+			//~ });			
+		//~ });
 	},
 });
 

@@ -1,5 +1,5 @@
 var app = app || {};
-app.version = "0.7";
+app.version = "0.8";
 /**
  * Event Bus
  * 
@@ -31,8 +31,17 @@ app.bus.on("alert", function(message, flag) {
 	app.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(data) {
-	app.navbarView.update(data);
-	app.navbarView.clearAlerts();
+	if (data.hasOwnProperty('deferred')) {
+		console.log("waiting for deferred function to clear.");
+		data.deferred.then(function(){
+			app.navbarView.update(data);
+			app.navbarView.clearAlerts();
+		});
+		
+	} else {
+		app.navbarView.update(data);
+		app.navbarView.clearAlerts();
+	}
 });
 
 /**
