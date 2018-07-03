@@ -13,7 +13,7 @@ pre {
 .dropdown-menu > li >  a.focus,
 .dropdown-menu > li > a:hover
 {
-	background-color: #90cfe7;
+	background-color: royalblue; /*#90cfe7;*/
 }
 
 .btn {
@@ -26,11 +26,16 @@ div#nav-right-block {
 	padding-bottom: 0px;
 }
 
+/*
+body, main.container-fluid {
+	min-height: 100vh;
+}
+*/
 
 .main-wrapper {
-	min-height: 75vh;
 	margin:0 auto -3.2vh;
 	padding-bottom: 8vh;
+	min-height: 75vh;
 }
 
 #nav-footer {

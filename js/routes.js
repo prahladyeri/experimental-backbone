@@ -3,7 +3,7 @@
  * 
  * */
 var app = app || {};
-app.initRoutes = function() {
+app.initRoutes = function(callback) {
 	console.log("loading routes");
 	app.Router = Backbone.Router.extend({
 		initialize: function() {
@@ -55,6 +55,7 @@ app.initRoutes = function() {
 			app.testView.render();
 		});
 		Backbone.history.start(); //@todo: check what this does.
+		callback();
 	});
 
 }
