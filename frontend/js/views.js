@@ -23,14 +23,6 @@ app.NavbarView = Backbone.View.extend({
 		$("#icon-title").addClass("fa fa-" + icon);
 		$("#spn-title").text(data.title);
 	},
-	refresh: function() {
-		//~ if (app.state.isLoggedIn) {
-			//~ $("#navbar-user-block").removeClass('hidden');
-		//~ }
-		//~ else {
-			//~ $("#navbar-user-block").addClass('hidden');
-		//~ }
-	},
 	alert: function(message, flag) {
 		var flag = flag || "success";
 		var closeAnchor = '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
