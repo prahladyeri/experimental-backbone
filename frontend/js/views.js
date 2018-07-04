@@ -102,7 +102,7 @@ app.LoginView = Backbone.View.extend({
 	events: {
 		"submit #frm-login": function() {
 			console.log("Form submitted!");
-			app.bus.trigger("login", {
+			app.bus.trigger("login:start", {
 				data: {
 					"email": this.$el.find("#email").val(),
 					"password": this.$el.find("#password").val(),
@@ -166,6 +166,7 @@ app.RegisterView = Backbone.View.extend({
 			}
 			app.bus.trigger("register", {
 				data: {
+					'type': 'Admin',
 					'name': this.$el.find("#name").val(),
 					'email': this.$el.find("#email").val(),
 					'password': this.$el.find("#password").val(),

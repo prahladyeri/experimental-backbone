@@ -12,7 +12,7 @@ app.bus.on('all', function(event) { //for logging
 app.bus.on('app:loaded', function(e) {
 	$(".show-on-start").removeClass('hidden');
 });
-app.bus.on("login", function(options) {
+app.bus.on("login:start", function(options) {
 	app.dbs.login(options.data, function(data){
 		options.success(data);
 	});
