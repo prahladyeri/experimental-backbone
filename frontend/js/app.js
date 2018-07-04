@@ -32,14 +32,14 @@ app.bus.on("alert", function(message, flag) {
 });
 app.bus.on('view:rendered', function(data) {
 	if (data.hasOwnProperty('deferred')) {
-		console.log("waiting for deferred function to clear.");
+		console.log("waiting for deferred function to resolve");
 		data.deferred.then(function(){
 			app.navbarView.update(data);
 			app.navbarView.clearAlerts();
 		});
 		
 	} else {
-		console.log("no waiting, rendering navbar view.");
+		console.log("no waiting, rendering navbar view");
 		app.navbarView.update(data);
 		app.navbarView.clearAlerts();
 	}
