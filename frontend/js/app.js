@@ -80,10 +80,11 @@ Backbone.sync = function(method, object, options) {
 document.addEventListener("DOMContentLoaded", function(){
 	console.log('loading app version ', app.version);
 	app.config = {
-		name: 'Todo App',
+		name: 'Todo',
 		mode: 'offline', //@todo implement indexeddb and online mode
 	}
 	document.getElementsByTagName("title")[0].text = app.config.name;
+	//default app state
 	app.state = {
 		isLoggedIn: false,
 		justLoggedIn: false,
