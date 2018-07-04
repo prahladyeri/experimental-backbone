@@ -39,6 +39,7 @@ app.bus.on('view:rendered', function(data) {
 		});
 		
 	} else {
+		console.log("no waiting, rendering navbar view.");
 		app.navbarView.update(data);
 		app.navbarView.clearAlerts();
 	}

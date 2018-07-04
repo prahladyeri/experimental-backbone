@@ -3,6 +3,7 @@
  * 
  * */
 var app = app || {};
+
 app.initRoutes = function(callback) {
 	console.log("loading routes");
 	app.Router = Backbone.Router.extend({

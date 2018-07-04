@@ -95,9 +95,14 @@ app.HomeView = Backbone.View.extend({
 app.LoginView = Backbone.View.extend({
 	el: '#div-main',
 	title: "Login",
-	initialize: function() {
-		//_.bindAll(this, "login"); //@todo: check why is bindAll needed
-		//$("body").on('click', '#frm-login #btn-login', this.login);
+	initialize: function(){
+		console.log("NOW MAKING AJAX CALL");
+		var temp = this;
+		$.get("partials/login.html", function(e) {
+			temp.template = _.template(e, {});
+			console.log('TEMPLATE LOADED');
+			app.bus.trigger("loginView:ontemplateload");
+		});
 	},
 	events: {
 		"submit #frm-login": function() {
@@ -124,28 +129,22 @@ app.LoginView = Backbone.View.extend({
 		}
 	},
 	render: function() {
-		//$("#spn-title").text(this.title);
 		title = this.title;
 		app.signout();
-
 		var deferred = app.navbarView.render();
-		app.loadTemplate("partials/login.html")
-		.then(function() {
-			app.bus.trigger("view:rendered", {title: title, icon: 'user', deferred: deferred});
-			var form = $("#frm-login");
-			app.setFocus(form);
-		});
-
-
-		//~ app.navbarView.render()
-		//~ .then(function(){
-			//~ app.loadTemplate("partials/login.html")
-			//~ .then(function() {
-				//~ app.bus.trigger("view:rendered", {title: title, icon: 'user'});
-				//~ var form = $("#frm-login");
-				//~ app.setFocus(form);
-			//~ });			
-		//~ });
+		if (!this.template) {
+			console.log("login template not loaded yet");
+			this.listenTo(app.bus, "loginView:ontemplateload", function(){
+				console.log("trying again");
+				this.render(arguments);
+			});
+			return;
+		}
+		console.log("login template loaded");
+		$("#div-main").html(this.template({}));
+		app.bus.trigger("view:rendered", {title: title, icon: 'user', 'deferred': deferred});
+		var form = $("#frm-login");
+		app.setFocus(form);
 	},
 });
 
@@ -193,6 +192,7 @@ app.RegisterView = Backbone.View.extend({
 
 	},
 });
+
 
 app.loginView = new app.LoginView();
 app.registerView = new app.RegisterView();
