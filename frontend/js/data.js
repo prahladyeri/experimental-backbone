@@ -7,64 +7,51 @@ dbs = {};
 app.dbs = dbs;
 
 dbs.connect = function(callback) { //to local or remote database
-	if (app.config.mode == 'offline') {
-		//debugger;
-		//@todo: handle incompatible browsers
-		if (!window.indexedDB) {
-			console.log("Browser doesn't support indexedDB");
-			return false;
-		} else {
-			var request = indexedDB.open("experiment");
-			request.onupgradeneeded = function(event) {
-				app.state.isNew = true;
-				console.log("request:onupgradeneeded");
-				//e.target.transaction.abort();
-				var db = event.target.result;
-				//create tables
-				console.log("now creating store.");
-				var store = db.createObjectStore("users", {keyPath: "email"});
-				app.dbs.store = store;
-				console.log("store created.");
-				//store.createIndex("name", "name", {unique:false});
-				store.createIndex("email", "email", {unique:true});
-				//create another store.
-				//var dbver =  parseInt(db.version);
-				
-				var stateStore = db.createObjectStore("state", {keyPath:'id', autoIncrement:true}); //, {keyPath: "email"}
-				app.dbs.stateStore = stateStore;
-				console.log("stateStore created. Now adding app.sate object to store.");
-				//var trans = db.transaction('state','readwrite');
-				var trans = event.target.transaction;
-				console.log("transaction created.");
-				var tstore = trans.objectStore('state');
-				console.log("transaction store created.");
-				var req = tstore.add(app.state);
-				console.log("request created.");
-				req.onsuccess = function(e) {
-					console.log("transaction successful",e);
-				}
-				req.onerror = function(e) {
-					console.log("transaction failed",e);
-				}
-			}
-			request.oncomplete = function(e) {
-				console.log("request:oncomplete: ", e);
-				//callback(e); @todo: check why this is not firing
-			}
-			request.onsuccess = function(e) {
-				console.log("request:onsuccess");
-				app.dbs.db = e.target.result;
-				callback(e);
-			}
-			request.onerror = function(event) {
-				console.log("request:onerror: " + event.target.errorCode);
-			}
-			return true;
-		}
-	}
-	else {
+	//debugger;
+	//@todo: handle incompatible browsers
+	if (!window.indexedDB) {
+		alert("Browser doesn't support indexedDB");
 		return false;
 	}
+	var request = indexedDB.open("experiment");
+	request.onupgradeneeded = function(event) {
+		app.state.isNew = true;
+		console.log("request:onupgradeneeded");
+		//e.target.transaction.abort();
+		var db = event.target.result;
+		if (app.config.mode == 'offline') {
+			//create users store
+			var store = db.createObjectStore("users", {keyPath: "email"});
+			app.dbs.store = store;
+			store.createIndex("email", "email", {unique:true});
+		}
+		//create state store
+		var stateStore = db.createObjectStore("state", {keyPath:'id', autoIncrement:true}); //, {keyPath: "email"}
+		app.dbs.stateStore = stateStore;
+		//add object to state store
+		var trans = event.target.transaction;
+		var tstore = trans.objectStore('state');
+		var req = tstore.add(app.state);
+		req.onsuccess = function(e) {
+			console.log("%cstore:transaction:success", "color:darkgreen");
+		}
+		req.onerror = function(e) {
+			console.log("%cstore:transaction:error","color:darkred", e);
+		}
+	}
+	request.oncomplete = function(e) {
+		console.log("request:oncomplete: ", e);
+		//callback(e); @todo: check why this is not firing
+	}
+	request.onsuccess = function(e) {
+		console.log("%cdbs:request:onsuccess", "color: darkgreen;");
+		app.dbs.db = e.target.result;
+		callback(e);
+	}
+	request.onerror = function(e) {
+		console.log("%cdbs:request:onerror:","color:darkred", e);
+	}
+	return true;
 };
 
 dbs.login = function(user, callback) {
@@ -87,21 +74,6 @@ dbs.login = function(user, callback) {
 					callback(false);
 				}
 			};
-			//~ if (user.email == 'johndoe@nowhere.com' && user.password == 'foobar') {
-				//~ app.state.user = new app.User({
-						//~ 'id': 1,
-						//~ 'name': 'John Doe',
-						//~ 'email': 'johndoe@nowhere.com',
-						//~ 'password': '1234',
-						//~ 'type': 'Admin',
-						//~ 'collection': app.users,
-					//~ });
-				//~ app.state.isLoggedIn = true;
-				//~ callback(true);
-			//~ }
-			//~ else {
-				//~ callback(false);
-			//~ }
 		}
 		else {
 			app.bus.trigger('alert', "Online mode not implemented yet.");
@@ -111,16 +83,15 @@ dbs.login = function(user, callback) {
 dbs.register = function(user, callback) {
 	if (app.config.mode == 'offline') {
 		delete user.confirm;
-		console.log("trying to store");
 		var store = app.dbs.db.transaction("users","readwrite").objectStore("users");
 		var request = store.add(user);
-		request.onerror = function(e){
-			console.log("store.onfailure", e);
-			callback(false);
-		};
 		request.onsuccess = function(e) {
-			console.log("store.onsuccess", e);
+			console.log("store.success", e);
 			callback(true);
+		};
+		request.onerror = function(e){
+			console.log("store.error", e);
+			callback(false);
 		};
 	}
 	else {
@@ -129,11 +100,14 @@ dbs.register = function(user, callback) {
 }
 
 dbs.getState = function(callback) {
-	console.log("getstate");
 	var tstore = app.dbs.db.transaction('state','readwrite').objectStore('state');
 	request = tstore.get(1);
 	request.onsuccess = function(e) {
-		console.log('getState:request:onsuccess');
+		console.log('%cgetState:success', 'color: darkgreen');
+		callback(e.target.result);
+	}
+	request.onerror = function(e) {
+		console.log('%cgetState:error', 'color: darkred', e);
 		callback(e.target.result);
 	}
 }	
@@ -141,10 +115,12 @@ dbs.getState = function(callback) {
 dbs.saveState = function() {
 	var tstore = app.dbs.db.transaction('state','readwrite').objectStore('state');
 	var obj = _.extend(app.state, {id:1})
-	console.log("saveState:obj", obj);
 	request = tstore.put(obj);
-	request.onsuccess = function(event) {
-		console.log('saveState', event);
+	request.onsuccess = function(e) {
+		console.log('%csaveState:success', 'color:darkgreen');
+	}
+	request.onerror = function(e) {
+		console.log('%csaveState:error', 'color:darkred', e);
 	}
 }
 

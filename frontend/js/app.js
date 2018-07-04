@@ -1,13 +1,29 @@
 var app = app || {};
 app.version = "0.8";
 /**
+ * App Defaults and Configuration
+ * */
+//default app configuration
+app.config = {
+	name: 'Todo',
+	mode: 'offline', //@todo implement indexeddb and online mode
+}
+//default app state
+app.state = {
+	debug: false, //whether to log all the details
+	isLoggedIn: false, //control variable for login state
+	justLoggedIn: false, //flag to control welcome screen display on home view
+	user: null, //object to store current logged-in user
+	isNew: false, //flag to know whether database existed before or its a first time use
+}
+/**
  * Event Bus
  * 
  * */
 console.log('loading event bus');
 app.bus = _.clone(Backbone.Events);
 app.bus.on('all', function(event) { //for logging
-	console.log("bus triggered. event: ", event);
+	if (app.state.debug) console.log("bus triggered. event: ", event);
 });
 app.bus.on('app:loaded', function(e) {
 	$(".show-on-start").removeClass('hidden');
@@ -33,11 +49,11 @@ app.bus.on("alert", function(message, flag) {
 app.bus.on('view:rendered', function(data) {
 	if (data.hasOwnProperty('deferred')) {
 		console.log("waiting for deferred function to resolve");
-		data.deferred.then(function(){
+		data.deferred.then(function() {
+			console.log('resolved');
 			app.navbarView.update(data);
 			app.navbarView.clearAlerts();
 		});
-		
 	} else {
 		console.log("no waiting, rendering navbar view");
 		app.navbarView.update(data);
@@ -77,20 +93,10 @@ Backbone.sync = function(method, object, options) {
  * App Start/Configuration
  * 
  * */
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function() {
 	console.log('loading app version ', app.version);
-	app.config = {
-		name: 'Todo',
-		mode: 'offline', //@todo implement indexeddb and online mode
-	}
+
 	document.getElementsByTagName("title")[0].text = app.config.name;
-	//default app state
-	app.state = {
-		isLoggedIn: false,
-		justLoggedIn: false,
-		user: null,
-		isNew: false, //first time use, database didn't exist before
-	}
 	app.dbs.connect(function(){
 		app.bus.trigger("database:connected");
 		//console.log("database connected. new state: ", app.state.isNew);
