@@ -12,7 +12,6 @@ app.config = {
 app.state = {
 	debug: false, //whether to log all the details
 	isLoggedIn: false, //control variable for login state
-	justLoggedIn: false, //flag to control welcome screen display on home view
 	user: null, //object to store current logged-in user
 	isNew: false, //flag to know whether database existed before or its a first time use
 }
@@ -21,25 +20,28 @@ app.state = {
  * 
  * */
 console.log('loading event bus');
-app.bus = _.clone(Backbone.Events);
+//app.bus = _.clone(Backbone.Events);
 app.bus.on('all', function(event) { //for logging
-	if (app.state.debug) console.log("bus triggered. event: ", event);
+	//console.log("bus triggered. event: ", event);
 });
 app.bus.on('app:loaded', function(e) {
-	$(".show-on-start").removeClass('hidden');
+	console.log('%capp.bus:loaded', 'color:darkblue');
 });
 app.bus.on("login:start", function(options) {
-	app.dbs.login(options.data, function(data){
+	database.login(options.data, function(data){
 		options.success(data);
 	});
 });
 app.bus.on("login:successful", function(options) {
 	console.log("login successful. now saving state.");
-	app.state.justLoggedIn = true;
-	app.dbs.saveState();
+	database.saveState();
+});
+app.bus.on('login:successful:rendered', function() {
+	//app.navbarView.alert(message, flag);
+	app.bus.trigger('alert', "Welcome " + app.state.user.name + "!");
 });
 app.bus.on("register", function(options) {
-	app.dbs.register(options.data, function(data){
+	database.register(options.data, function(data){
 		options.success(data);
 	});
 });
@@ -97,15 +99,19 @@ document.addEventListener("DOMContentLoaded", function() {
 	console.log('loading app version ', app.version);
 
 	document.getElementsByTagName("title")[0].text = app.config.name;
-	app.dbs.connect(function(){
+	console.log('now connecting');
+	database.connect(function(){
 		app.bus.trigger("database:connected");
 		//console.log("database connected. new state: ", app.state.isNew);
 		if (app.state.isNew) {
 			app.state.isNew = false;
-			app.initRoutes();
+			console.log('calling initroutes()');
+			app.initRoutes(function(e){
+				app.bus.trigger("app:loaded", e);
+			});
 		}
 		else {
-			app.dbs.getState(function(e){
+			database.getState(function(e){
 				app.state = e;
 				app.initRoutes(function(e) {
 					app.bus.trigger("app:loaded", e);

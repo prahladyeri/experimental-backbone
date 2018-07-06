@@ -14,25 +14,30 @@ app.NavbarView = Backbone.View.extend({
 			app.bus.trigger('navbarView:ontemplateload');
 			console.log('%cnavbarView:ontemplateload','color:darkblue');
 		});
+		console.log('%cnavbarview:initialize','color:darkred');
+		this.listenTo(app.bus, 'app:loaded', function(e){
+			console.log('%capp.bus:loaded', 'color:darkred');
+			$(".show-on-start").removeClass('hidden');
+		});
 	},
-	waitforTemplate: function(c) {
-		if (!this.template) {
-			console.log("%cnavbar template hasn't loaded yet.", "color:darkblue");
-			this.listenTo(app.bus, 'navbarView:ontemplateload', function() {
-				c();
-			});
-		} else { c(); }
-	},
+	//~ waitforTemplate: function(c) {
+		//~ if (!this.template) {
+			//~ console.log("%cnavbar template hasn't loaded yet.", "color:darkblue");
+			//~ this.listenTo(app.bus, 'navbarView:ontemplateload', function() {
+				//~ c();
+			//~ });
+		//~ } else { c(); }
+	//~ },
 	render: function() {
 		var t = this;
-		this.waitforTemplate(function() {
+		helper.waitforTemplate('navbarView', function() {
 			t.$el.html(t.template());
 			app.bus.trigger('navbarView:onrender');
 		});
 	},
 	update: function(data) {
 		var t = this;
-		this.waitforTemplate(function(){
+		helper.waitforTemplate('navbarView', function(){
 			console.log("%cnavbarView:onupdatestart","color:darkblue");
 			var icon = data.icon || "bug";
 			$("#icon-title").removeClass();
@@ -57,7 +62,7 @@ app.TestView = Backbone.View.extend({
 	title: 'Test Page',
 	render: function(){
 		title = this.title;
-		app.loadTemplate("partials/test.html")
+		helper.loadTemplate("partials/test.html")
 		.then(function() {
 			app.bus.trigger("view:rendered", {title: title, icon: 'file'});
 			console.log("test page loaded");
@@ -72,7 +77,7 @@ app.AboutView = Backbone.View.extend({
 		this.title = "About " + app.config.name;
 		var temp = this;
 		title = this.title;
-		app.loadTemplate("partials/about.html")
+		helper.loadTemplate("partials/about.html")
 		.then(function() {
 			app.bus.trigger("view:rendered", {title: title, icon: 'info-circle'});			
 		});
@@ -85,7 +90,7 @@ app.HomeView = Backbone.View.extend({
 	render: function(){
 		var temp = this;
 		title = this.title;
-		app.loadTemplate("partials/home.html")
+		helper.loadTemplate("partials/home.html")
 		.then(function() {
 			app.bus.trigger("view:rendered", {title: title, icon: 'bug'});
 			var ss = "";
@@ -94,12 +99,6 @@ app.HomeView = Backbone.View.extend({
 			ss += "Application State: <br>";
 			ss += _.template("<pre><%= content %></pre>")({"content": JSON.stringify(app.state)});
 			temp.$el.find("#div-info").html(ss);
-			if (app.state.justLoggedIn) {
-				app.state.justLoggedIn = false;
-				var welcome = "Welcome " + app.state.user.name + "!";
-				app.navbarView.alert(welcome);
-				app.dbs.saveState();
-			}
 		});
 	},
 });
@@ -129,6 +128,7 @@ app.LoginView = Backbone.View.extend({
 					else {
 						//~ app.router.navigate("#", {'trigger':true});
 						//sign-in successful
+						app.bus.trigger('login:successful:rendered');
 						app.navbarView.render();
 						app.router.navigate("#", {'trigger':true});
 					}
@@ -144,14 +144,14 @@ app.LoginView = Backbone.View.extend({
 			});
 			return;
 		}
-		app.signout();
+		helper.signout();
 		title = this.title;
 		app.navbarView.render();
 		console.log("login template loaded");
 		this.$el.html(this.template({}));
 		app.bus.trigger("view:rendered", {title: title, icon: 'user'});
 		var $form = this.$el.find("#frm-login");
-		app.setFocus($form);
+		helper.setFocus($form);
 	},
 });
 
@@ -202,13 +202,13 @@ app.RegisterView = Backbone.View.extend({
 			});
 			return;
 		}
-		app.signout();
+		helper.signout();
 		title = this.title;
 		app.navbarView.render();
 		this.$el.html(this.template({}));
 		app.bus.trigger("view:rendered", {title: this.title, icon: 'register'});
 		$form = this.$el.find("#frm-register");
-		app.setFocus($form);
+		helper.setFocus($form);
 	},
 });
 

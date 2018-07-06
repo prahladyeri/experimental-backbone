@@ -3,10 +3,11 @@
  * 
  * */
 var app = app || {};
-dbs = {};
-app.dbs = dbs;
+//dbs = {};
+//app.dbs = dbs;
+var database = {};
 
-dbs.connect = function(callback) { //to local or remote database
+database.connect = function(callback) { //to local or remote database
 	//debugger;
 	//@todo: handle incompatible browsers
 	if (!window.indexedDB) {
@@ -22,12 +23,12 @@ dbs.connect = function(callback) { //to local or remote database
 		if (app.config.mode == 'offline') {
 			//create users store
 			var store = db.createObjectStore("users", {keyPath: "email"});
-			app.dbs.store = store;
+			database.store = store;
 			store.createIndex("email", "email", {unique:true});
 		}
 		//create state store
 		var stateStore = db.createObjectStore("state", {keyPath:'id', autoIncrement:true}); //, {keyPath: "email"}
-		app.dbs.stateStore = stateStore;
+		database.stateStore = stateStore;
 		//add object to state store
 		var trans = event.target.transaction;
 		var tstore = trans.objectStore('state');
@@ -45,7 +46,7 @@ dbs.connect = function(callback) { //to local or remote database
 	}
 	request.onsuccess = function(e) {
 		console.log("%cdbs:request:onsuccess", "color: darkgreen;");
-		app.dbs.db = e.target.result;
+		database.db = e.target.result;
 		callback(e);
 	}
 	request.onerror = function(e) {
@@ -54,12 +55,12 @@ dbs.connect = function(callback) { //to local or remote database
 	return true;
 };
 
-dbs.login = function(user, callback) {
+database.login = function(user, callback) {
 		if (app.config.mode == 'offline') {
-			var store = app.dbs.db.transaction("users","readonly").objectStore("users");
+			var store = database.db.transaction("users","readonly").objectStore("users");
 			var request = store.get(user.email);
 			request.onsuccess = function(e) {
-				console.log("request.success", e);
+				console.log("request.success");
 				var dbuser = e.target.result;
 				if (dbuser !== undefined && user.password == dbuser.password) {
 					//dbuser.collection = app.users;
@@ -80,10 +81,10 @@ dbs.login = function(user, callback) {
 		}
 	}
 
-dbs.register = function(user, callback) {
+database.register = function(user, callback) {
 	if (app.config.mode == 'offline') {
 		delete user.confirm;
-		var store = app.dbs.db.transaction("users","readwrite").objectStore("users");
+		var store = database.db.transaction("users","readwrite").objectStore("users");
 		var request = store.add(user);
 		request.onsuccess = function(e) {
 			console.log("store.success", e);
@@ -99,8 +100,8 @@ dbs.register = function(user, callback) {
 	}
 }
 
-dbs.getState = function(callback) {
-	var tstore = app.dbs.db.transaction('state','readwrite').objectStore('state');
+database.getState = function(callback) {
+	var tstore = database.db.transaction('state','readwrite').objectStore('state');
 	request = tstore.get(1);
 	request.onsuccess = function(e) {
 		console.log('%cgetState:success', 'color: darkgreen');
@@ -112,8 +113,8 @@ dbs.getState = function(callback) {
 	}
 }	
 
-dbs.saveState = function() {
-	var tstore = app.dbs.db.transaction('state','readwrite').objectStore('state');
+database.saveState = function() {
+	var tstore = database.db.transaction('state','readwrite').objectStore('state');
 	var obj = _.extend(app.state, {id:1})
 	request = tstore.put(obj);
 	request.onsuccess = function(e) {
@@ -124,7 +125,7 @@ dbs.saveState = function() {
 	}
 }
 
-dbs.save = function(object) {
+database.save = function(object) {
 	//object can be a model or collection
 	if (object instanceof Backbone.Model) {
 		console.log("saving model: ", object);

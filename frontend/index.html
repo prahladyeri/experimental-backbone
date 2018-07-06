@@ -38,6 +38,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--custom scripts-->
+	<script>
+	var app = app || {};
+	app.bus = _.clone(Backbone.Events);
+	console.log('created event bus');
+	</script>
 	<script src="js/helper.js"></script>
 	<script src="js/views.js"></script>
 	<script src="js/models.js"></script>

@@ -2,13 +2,14 @@
  * Helper functions
  * 
  * */
-var app = app || {};
-app.setFocus = function(form) {
+var helper =  _.extend(Backbone.Events);//helper || {};
+
+helper.setFocus = function(form) {
 	//console.log('now setting focus', form);
 	form.find("input:first").focus();
 }
 
-app.authenticate = function() {
+helper.authenticate = function() {
 	if (!app.state.isLoggedIn) {
 		app.router.navigate("login", {'trigger':true}) //redirect to login page
 		return false;
@@ -17,15 +18,23 @@ app.authenticate = function() {
 	}
 }
 
-app.signout = function() {
+helper.signout = function() {
 	//app.router.navigate("/login", {'trigger': true});
 	app.state.user = null;
 	app.state.isLoggedIn = false;
-	app.dbs.saveState();
+	database.saveState();
 }
 
+helper.waitforTemplate = function(viewName, c) {
+	if (!app[viewName].template) {
+		//console.log("%c" + viewName + " template hasn't loaded yet.", "color:darkblue");
+		helper.listenTo(app.bus, viewName + ':ontemplateload', function() {
+			c();
+		});
+	} else { c(); }
+}
 
-app.loadTemplate = function(filename, selector) {
+helper.loadTemplate = function(filename, selector) {
 	var selector = selector || "#div-main";
 	console.log('loading template ', filename, selector);
 	//var promise = new Promise();

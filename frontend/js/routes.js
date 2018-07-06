@@ -4,7 +4,7 @@
  * */
 var app = app || {};
 
-app.initRoutes = function() {
+app.initRoutes = function(callback) {
 	console.log("loading routes");
 	app.Router = Backbone.Router.extend({
 		initialize: function() {
@@ -29,7 +29,7 @@ app.initRoutes = function() {
 	app.navbarView.render();
 	app.router.on('route:index', function() {
 		console.log("route:index");
-		if (!app.authenticate()) return;
+		if (!helper.authenticate()) return;
 		app.homeView.render();
 	});
 	app.router.on('route:login', function() {
@@ -42,17 +42,17 @@ app.initRoutes = function() {
 	});	
 	app.router.on('route:about', function() {
 		console.log("route:about");
-		if (!app.authenticate()) return;
+		if (!helper.authenticate()) return;
 		app.aboutView.render();
 	});
 	app.router.on('route:test', function() {
 		console.log("route:test");
-		if (!app.authenticate()) return;
+		if (!helper.authenticate()) return;
 		app.testView.render();
 	});
 	app.router.on('route:longrunning', function(){
 		console.log('route:longrunning');
-		if (!app.authenticate()) return;
+		if (!helper.authenticate()) return;
 		app.navbarView.render();
 		app.sleep(2500)
 		.then(function(e){
@@ -61,8 +61,9 @@ app.initRoutes = function() {
 	});
 	app.router.on('route:defaultRoute', function() {
 		console.log("route:defaultRoute");
-		if (!app.authenticate()) return;
+		if (!helper.authenticate()) return;
 		app.testView.render();
 	});
 	Backbone.history.start(); //@todo: check what this does.
+	callback();
 }
