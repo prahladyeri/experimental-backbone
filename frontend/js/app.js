@@ -37,7 +37,6 @@ app.bus.on("login:successful", function(options) {
 	database.saveState();
 });
 app.bus.on('login:successful:rendered', function() {
-	//app.navbarView.alert(message, flag);
 	app.bus.trigger('alert', "Welcome " + app.state.user.name + "!");
 });
 app.bus.on("register", function(options) {
@@ -46,32 +45,22 @@ app.bus.on("register", function(options) {
 	});
 });
 app.bus.on("alert", function(message, flag) {
-	app.navbarView.alert(message, flag);
+	views.navbarView.alert(message, flag);
 });
 app.bus.on('view:rendered', function(data) {
 	if (data.hasOwnProperty('deferred')) {
 		console.log("waiting for deferred function to resolve");
 		data.deferred.then(function() {
 			console.log('resolved');
-			app.navbarView.update(data);
-			app.navbarView.clearAlerts();
+			views.navbarView.update(data);
+			views.navbarView.clearAlerts();
 		});
 	} else {
 		console.log("no waiting, rendering navbar view");
-		app.navbarView.update(data);
-		app.navbarView.clearAlerts();
+		views.navbarView.update(data);
+		views.navbarView.clearAlerts();
 	}
 });
-
-/**
- * Bind some views to listen for some bus events
- * */
-//~ app.navbarView.listenTo(app.bus, "login:successful", function() {
-	//~ console.log("now showing welcome screen.");
-	//~ var welcome = "Welcome " + app.state.user.name + "!";
-	//~ this.alert(welcome);
-//~ });
-
 
 /**
  * Backbone Sync Override

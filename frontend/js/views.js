@@ -2,10 +2,10 @@
  * Views
  * 
  * */
-var app = app || {};
+var views = views || {};
 console.log("loading views");
 
-app.NavbarView = Backbone.View.extend({
+views.NavbarView = Backbone.View.extend({
 	el: "#div-navbar",
 	initialize: function() {
 		var temp = this;
@@ -57,7 +57,7 @@ app.NavbarView = Backbone.View.extend({
 	}
 });
 
-app.TestView = Backbone.View.extend({
+views.TestView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Test Page',
 	render: function(){
@@ -70,7 +70,7 @@ app.TestView = Backbone.View.extend({
 	},
 });
 
-app.AboutView = Backbone.View.extend({
+views.AboutView = Backbone.View.extend({
 	el: "#div-main",
 	title: "About ",
 	render: function() {
@@ -84,7 +84,7 @@ app.AboutView = Backbone.View.extend({
 	},
 });
 
-app.HomeView = Backbone.View.extend({
+views.HomeView = Backbone.View.extend({
 	el: "#div-main",
 	title: 'Home',
 	render: function(){
@@ -103,7 +103,7 @@ app.HomeView = Backbone.View.extend({
 	},
 });
 
-app.LoginView = Backbone.View.extend({
+views.LoginView = Backbone.View.extend({
 	el: '#div-main',
 	title: "Login",
 	initialize: function(){
@@ -129,7 +129,7 @@ app.LoginView = Backbone.View.extend({
 						//~ app.router.navigate("#", {'trigger':true});
 						//sign-in successful
 						app.bus.trigger('login:successful:rendered');
-						app.navbarView.render();
+						views.navbarView.render();
 						app.router.navigate("#", {'trigger':true});
 					}
 				}
@@ -146,7 +146,7 @@ app.LoginView = Backbone.View.extend({
 		}
 		helper.signout();
 		title = this.title;
-		app.navbarView.render();
+		views.navbarView.render();
 		console.log("login template loaded");
 		this.$el.html(this.template({}));
 		app.bus.trigger("view:rendered", {title: title, icon: 'user'});
@@ -155,7 +155,7 @@ app.LoginView = Backbone.View.extend({
 	},
 });
 
-app.RegisterView = Backbone.View.extend({
+views.RegisterView = Backbone.View.extend({
 	el: '#div-main',
 	title: "Register",
 	initialize: function() {
@@ -204,7 +204,7 @@ app.RegisterView = Backbone.View.extend({
 		}
 		helper.signout();
 		title = this.title;
-		app.navbarView.render();
+		views.navbarView.render();
 		this.$el.html(this.template({}));
 		app.bus.trigger("view:rendered", {title: this.title, icon: 'register'});
 		$form = this.$el.find("#frm-register");
@@ -213,9 +213,9 @@ app.RegisterView = Backbone.View.extend({
 });
 
 
-app.loginView = new app.LoginView();
-app.registerView = new app.RegisterView();
-app.navbarView = new app.NavbarView();
-app.homeView = new app.HomeView();
-app.testView = new app.TestView();
-app.aboutView = new app.AboutView();
+views.loginView = new views.LoginView();
+views.registerView = new views.RegisterView();
+views.navbarView = new views.NavbarView();
+views.homeView = new views.HomeView();
+views.testView = new views.TestView();
+views.aboutView = new views.AboutView();

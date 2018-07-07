@@ -26,7 +26,7 @@ helper.signout = function() {
 }
 
 helper.waitforTemplate = function(viewName, c) {
-	if (!app[viewName].template) {
+	if (!views[viewName].template) {
 		//console.log("%c" + viewName + " template hasn't loaded yet.", "color:darkblue");
 		helper.listenTo(app.bus, viewName + ':ontemplateload', function() {
 			c();
