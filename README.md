@@ -6,8 +6,9 @@
 
 - Front-end
 	- Backbone.js
+	- Underscore.js
+	- jquery
 	- Twitter Bootstrap
-	- jquery-ui
 	- fontawesome
 	- Google Fonts
 	
@@ -37,22 +38,38 @@ In order to simulate delays that usually happen in a live environment, you can a
 * Organize index.html, link stylesheets, scripts, etc.
 * Add navbar and footer.
 * Create tables and data structures for user authentication
-+ Create backbone models
++ Create models
 	+ User
-+ Create backbone collections
+	+ Setting
++ Create collections
 	+ Users
-* Create backbone routers and event bus.
-+ Create backbone views 
-	- LoginView
-	- RegisterView
-	- HomeView
-	- AboutView
-	- TestView
++ Create routes
+	+ index
+	+ login
+	+ register
+	+ about
+	+ longrunning (for testing)
+	+ lorem (for testing)
+	+ Ipsum (for testing)
++ Create views 
+	+ LoginView
+	+ RegisterView
+	+ NavbarView
+	+ HomeView
+	+ AboutView
+	+ TestView
++ Create helper functions
+	* setFocus
+	* authenticate
+	* signout
+	* waitForTemplate
+	* loadTemplate (depreciated)
+	* sleep
 + Create home dashboard.
 + Core modules:
-	* Login/Logout
-	- Profile page
-	- User management (only for admin roles)
+	+ Login/Logout
+	+ Profile page
+	+ User management (only for admin roles)
 	+ About Page
 - Add Page change animation and other shiny things
 - Configure "Experimental" in a variable instead of hard-coding it
